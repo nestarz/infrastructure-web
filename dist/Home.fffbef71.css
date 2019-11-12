@@ -1,0 +1,58 @@
+.home {
+  display: grid;
+  grid-template-columns: 1fr 0fr 1fr;
+  grid-gap: 3rem;
+  padding: 0 3rem;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.panel {
+  display: grid;
+  grid-auto-rows: min-content;
+  align-content: center;
+  justify-content: center;
+  overflow: hidden;
+  max-width: 50vw;
+}
+
+select {
+  width: 100%;
+}
+
+svg text {
+  font-size: 4rem;
+  background: var(--background);
+}
+
+.dark {
+  --background: hsl(0, 0%, 0%);
+  --color: green;
+
+  background: var(--background);
+  color: var(--color);
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.4rem;
+  font-size: 3rem;
+}
+
+nav span {
+  writing-mode: sideways-lr;
+}
+
+nav a:focus {
+  /* border: 1px solid;
+  padding: 0.2rem 0.8rem; */
+}
+
+/* nav a:focus:after {
+  position: absolute;
+  content: "/";
+  transform: scale(6, 0.3) translateX(-0.1rem);
+} */

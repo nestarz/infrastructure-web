@@ -1,0 +1,91 @@
+@font-face {
+    font-family: "Messapia";
+    src: url("/Messapia-Regular.8d3df29a.otf") format("opentype");
+    font-weight: normal;
+  }
+
+@font-face {
+  font-family: "Messapia";
+  src: url("/Messapia-Bold.dd942ba6.otf") format("opentype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Lexend";
+  src: url("/Lexend[LXND].6f4bbc15.null") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "CascadiaCode";
+  src: url("/CascadiaCode-Regular-VTT.71f2514b.ttf") format("truetype");
+  font-weight: normal;
+}
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --color: black;
+}
+
+html {
+  font-size: 10px;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body,
+text {
+  font-size: 1.6rem;
+  font-family: Lexend, Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+  Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+}
+
+body > * {
+  flex: 1;
+}
+
+a {
+  color: var(--color);
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+p {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.typed-element {
+  display: flex;
+  align-items: center;
+}
+.typed-element .typed-cursor {
+    opacity: 1;
+    animation: typedjsBlink 0.7s infinite;
+}
+@keyframes typedjsBlink {
+50% {
+    opacity: 0.0;
+}
+}
+
+
+/*# sourceMappingURL=/src.e31bb0bc.css.map */

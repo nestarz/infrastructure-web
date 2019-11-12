@@ -1,0 +1,10 @@
+{
+  "name": "whois",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "array-flat-polyfill": "^1.0.1",
+    "punycode": "^2.1.1"
+  }
+}
