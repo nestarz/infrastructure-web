@@ -238,59 +238,61 @@ exports.default = _default;
   return _c(
     "div",
     [
-      _c(
-        "portal",
-        { attrs: { to: "map", tag: "g", slim: "" } },
-        [
-          _vm._l(_vm.TLDs, function(ref) {
-            var domain = ref.domain
-            var latitude = ref.latitude
-            var longitude = ref.longitude
-            var type = ref.type
-            return [
-              _vm.currentTLD
-                ? _c(
-                    "map-marker",
-                    {
-                      key: domain,
-                      attrs: {
-                        coordinates: [longitude, latitude],
-                        r: _vm.currentTLD.domain === domain ? 24 : 1,
-                        fill: _vm.colorType(type, domain, _vm.currentTLD)
-                      }
-                    },
-                    [
-                      _c("circle", {
+      _vm._l(["map", "tor"], function(to) {
+        return _c(
+          "portal",
+          { key: to, attrs: { to: to, tag: "g", slim: "" } },
+          [
+            _vm._l(_vm.TLDs, function(ref) {
+              var domain = ref.domain
+              var latitude = ref.latitude
+              var longitude = ref.longitude
+              var type = ref.type
+              return [
+                _vm.currentTLD
+                  ? _c(
+                      "map-marker",
+                      {
+                        key: domain,
                         attrs: {
-                          r: _vm.currentTLD.domain === domain ? 20 : 1,
+                          coordinates: [longitude, latitude],
+                          r: _vm.currentTLD.domain === domain ? 24 : 1,
                           fill: _vm.colorType(type, domain, _vm.currentTLD)
                         }
-                      })
-                    ]
-                  )
-                : _vm._e()
-            ]
-          }),
-          _vm._v(" "),
-          _vm.currentTLD
-            ? _c("map-line", {
-                attrs: {
-                  from: [-118.419444, 33.976389],
-                  to: [_vm.currentTLD.longitude, _vm.currentTLD.latitude],
-                  "stroke-width": 12,
-                  stroke: "red"
-                }
-              })
-            : _vm._e()
-        ],
-        2
-      ),
+                      },
+                      [
+                        _c("circle", {
+                          attrs: {
+                            r: _vm.currentTLD.domain === domain ? 20 : 1,
+                            fill: _vm.colorType(type, domain, _vm.currentTLD)
+                          }
+                        })
+                      ]
+                    )
+                  : _vm._e()
+              ]
+            }),
+            _vm._v(" "),
+            _vm.currentTLD
+              ? _c("map-line", {
+                  attrs: {
+                    from: [-118.419444, 33.976389],
+                    to: [_vm.currentTLD.longitude, _vm.currentTLD.latitude],
+                    "stroke-width": 12,
+                    stroke: "yellow"
+                  }
+                })
+              : _vm._e()
+          ],
+          2
+        )
+      }),
       _vm._v(" "),
       _vm.currentTLD
         ? _c("pre", [_vm._v(_vm._s(_vm.currentTLD.raw))])
         : _vm._e()
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []

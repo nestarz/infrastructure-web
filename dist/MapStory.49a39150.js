@@ -353,22 +353,26 @@ exports.default = _default;
           )
         }),
         _vm._v(" "),
-        _c(
-          "portal",
-          { attrs: { to: "tor", tag: "g", slim: "" } },
-          [
-            _vm.current > 2
-              ? [
-                  _c(
-                    "map-marker",
-                    { attrs: { coordinates: [10, 1], r: "8", fill: "black" } },
-                    [_c("circle", { attrs: { r: "8", fill: "black" } })]
-                  )
-                ]
-              : _vm._e()
-          ],
-          2
-        )
+        _vm._l(["map", "tor"], function(to) {
+          return _c(
+            "portal",
+            { key: to, attrs: { to: to, tag: "g", slim: "" } },
+            [
+              _vm.current > 2
+                ? [
+                    _c(
+                      "map-marker",
+                      {
+                        attrs: { coordinates: [10, 1], r: "8", fill: "black" }
+                      },
+                      [_c("circle", { attrs: { r: "8", fill: "black" } })]
+                    )
+                  ]
+                : _vm._e()
+            ],
+            2
+          )
+        })
       ],
       2
     ),
@@ -484,26 +488,28 @@ exports.default = _default;
           _vm._v("You could call people from Eindhoven to London in no time.")
         ]),
         _vm._v(" "),
-        _c(
-          "portal",
-          { attrs: { to: "map", tag: "g", slim: "" } },
-          [
-            _vm.current === 12
-              ? [
-                  _c("map-line", {
-                    attrs: {
-                      from: [-0.118092, 51.509865],
-                      to: [51.44083, 5.47778],
-                      stroke: "yellow"
-                    }
-                  })
-                ]
-              : _vm._e()
-          ],
-          2
-        )
+        _vm._l(["map", "tor"], function(to) {
+          return _c(
+            "portal",
+            { key: to, attrs: { to: to, tag: "g", slim: "" } },
+            [
+              _vm.current === 12
+                ? [
+                    _c("map-line", {
+                      attrs: {
+                        from: [-0.118092, 51.509865],
+                        to: [51.44083, 5.47778],
+                        stroke: "yellow"
+                      }
+                    })
+                  ]
+                : _vm._e()
+            ],
+            2
+          )
+        })
       ],
-      1
+      2
     ),
     _vm._v(" "),
     _c(

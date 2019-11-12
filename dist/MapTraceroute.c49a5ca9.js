@@ -1315,54 +1315,54 @@ exports.default = _default;
   return _c(
     "div",
     [
-      !_vm.error
-        ? _c(
-            "portal",
-            { attrs: { to: "map", tag: "g", slim: "" } },
-            [
-              _vm.parent && _vm.user
-                ? _c("map-line", {
+      _vm._l(["map", "tor"], function(to) {
+        return _c(
+          "portal",
+          { key: to, attrs: { to: to, tag: "g", slim: "" } },
+          [
+            _vm.parent && _vm.user
+              ? _c("map-line", {
+                  attrs: {
+                    from: [_vm.parent.longitude, _vm.parent.latitude],
+                    to: [_vm.user.longitude, _vm.user.latitude],
+                    stroke: "yellow",
+                    "stroke-width": 24
+                  }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.childs, function(ref) {
+              var longitude = ref.longitude
+              var latitude = ref.latitude
+              var hostname = ref.hostname
+              return [
+                _c("map-line", {
+                  key: hostname + longitude,
+                  attrs: {
+                    from: [_vm.parent.longitude, _vm.parent.latitude],
+                    to: [longitude, latitude],
+                    stroke: "yellow"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "map-marker",
+                  {
+                    key: hostname + latitude,
                     attrs: {
-                      from: [_vm.parent.longitude, _vm.parent.latitude],
-                      to: [_vm.user.longitude, _vm.user.latitude],
-                      stroke: "yellow",
-                      "stroke-width": 24
+                      coordinates: [longitude, latitude],
+                      r: 2,
+                      fill: "yellow"
                     }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm._l(_vm.childs, function(ref) {
-                var longitude = ref.longitude
-                var latitude = ref.latitude
-                var hostname = ref.hostname
-                return [
-                  _c("map-line", {
-                    key: hostname + longitude,
-                    attrs: {
-                      from: [_vm.parent.longitude, _vm.parent.latitude],
-                      to: [longitude, latitude],
-                      stroke: "yellow"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "map-marker",
-                    {
-                      key: hostname + latitude,
-                      attrs: {
-                        coordinates: [longitude, latitude],
-                        r: 2,
-                        fill: "yellow"
-                      }
-                    },
-                    [_c("circle", { attrs: { r: "2", fill: "yellow" } })]
-                  )
-                ]
-              })
-            ],
-            2
-          )
-        : _vm._e(),
+                  },
+                  [_c("circle", { attrs: { r: "2", fill: "yellow" } })]
+                )
+              ]
+            })
+          ],
+          2
+        )
+      }),
       _vm._v(" "),
       _c(
         "select",
@@ -1404,7 +1404,7 @@ exports.default = _default;
         ]
       )
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []

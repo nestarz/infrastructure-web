@@ -42117,10 +42117,10 @@ var _default = {
     const node2 = (0, _compositionApi.ref)(null);
     const id = setInterval(() => {
       if (!nodes.value) return;
-      node2.value = node1.value;
+      node2.value = nodes.value[0];
       node1.value = nodes.value[Math.floor(nodes.value.length * Math.random())];
       play();
-    }, 200);
+    }, 500);
     (0, _compositionApi.onUnmounted)(() => clearInterval(id));
     return {
       nodes,
@@ -42146,39 +42146,41 @@ exports.default = _default;
   return _c(
     "div",
     [
-      _c(
-        "portal",
-        { attrs: { to: "map", tag: "g", slim: "" } },
-        [
-          _vm._l(_vm.nodes, function(ref) {
-            var ip = ref.ip
-            var latitude = ref.latitude
-            var longitude = ref.longitude
-            return [
-              _c("map-marker", {
-                key: ip,
-                attrs: {
-                  coordinates: [longitude, latitude],
-                  r: 1,
-                  fill: "yellow"
-                }
-              })
-            ]
-          }),
-          _vm._v(" "),
-          _vm.node1 && _vm.node2
-            ? _c("map-line", {
-                attrs: {
-                  from: [_vm.node1.longitude, _vm.node1.latitude],
-                  to: [_vm.node2.longitude, _vm.node2.latitude],
-                  "stroke-width": 12,
-                  stroke: "red"
-                }
-              })
-            : _vm._e()
-        ],
-        2
-      ),
+      _vm._l(["map", "tor"], function(to) {
+        return _c(
+          "portal",
+          { key: to, attrs: { to: to, tag: "g", slim: "" } },
+          [
+            _vm._l(_vm.nodes, function(ref) {
+              var ip = ref.ip
+              var latitude = ref.latitude
+              var longitude = ref.longitude
+              return [
+                _c("map-marker", {
+                  key: ip,
+                  attrs: {
+                    coordinates: [longitude, latitude],
+                    r: 1,
+                    fill: "yellow"
+                  }
+                })
+              ]
+            }),
+            _vm._v(" "),
+            _vm.node1 && _vm.node2
+              ? _c("map-line", {
+                  attrs: {
+                    from: [_vm.node1.longitude, _vm.node1.latitude],
+                    to: [_vm.node2.longitude, _vm.node2.latitude],
+                    "stroke-width": 12,
+                    stroke: "yellow"
+                  }
+                })
+              : _vm._e()
+          ],
+          2
+        )
+      }),
       _vm._v(" "),
       _c(
         "ul",
@@ -42201,7 +42203,7 @@ exports.default = _default;
         0
       )
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []

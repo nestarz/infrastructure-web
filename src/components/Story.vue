@@ -4,16 +4,13 @@
     <nav>
       <a href="#" @click="p = p - 1">{{ p - 1 }}</a>
       <template v-if="p">
-      <span>{{ stories[p].title }}</span>
-      <span>Chapter {{ p }}</span>
+        <span>{{ stories[p].title }}</span>
+        <span>Chapter {{ p }}</span>
       </template>
       <a href="#" @click="p = p + 1">{{ p + 1 }}</a>
     </nav>
-    <div class="panel">
-      <map-story v-if="p === 1"></map-story>
-      <map-nodes @error="showError" v-if="p === 2"></map-nodes>
-      <map-tld @error="showError" v-if="p === 3"></map-tld>
-      <map-traceroute :hostname="hostname" @error="showError" v-if="p === 4"></map-traceroute>
+    <div class="panel" v-if="p || p === 0">
+      <component :is="stories[p].component"></component>
     </div>
   </div>
 </template>
@@ -25,21 +22,21 @@ import { ref } from "@vue/composition-api";
 export default {
   components: {
     VueMap: () => import("~/components/Map.vue"),
-    MapStory: () => import("~/components/MapStory.vue"),
-    MapTraceroute: () => import("~/components/MapTraceroute.vue"),
-    MapTld: () => import("~/components/MapTld.vue"),
-    MapNodes: () => import("~/components/MapNodes.vue")
+    Chapter1: () => import("~/components/Chapter1.vue"),
+    Chapter2: () => import("~/components/Chapter2.vue"),
+    Chapter3: () => import("~/components/Chapter3.vue"),
+    Chapter4: () => import("~/components/Chapter4.vue")
   },
   setup() {
     const hostname = ref(null);
-    const dark = ref(false);
+    const dark = ref(true);
 
     const stories = [
-      {title: "Phone Analogy"},
-      {title: "Internet own's phone book"},
-      {title: "Call me by your name"},
-      {title: "Call me by your best friend name"},
-    ]
+      { title: "Phone Analogy" },
+      { title: "Internet own's phone book", component: "chapter1" },
+      { title: "Call me by your name", component: "chapter2" },
+      { title: "Call me by your best friend name", component: "chapter3" }
+    ];
     return {
       p: ref(null),
       dark,
@@ -57,7 +54,7 @@ export default {
 .layer {
   display: grid;
   grid-template-columns: 1fr 0fr 1fr;
-  grid-gap: 3rem;
+  grid-gap: 0rem;
   height: 50vh;
   font-size: 0.5rem;
 }
