@@ -22,6 +22,14 @@
   font-weight: normal;
 }
 
+.page-enter-active, .page-leave-active {
+  transition: opacity 1s, transform 1s;
+}
+.page-enter, .page-leave-to {
+  opacity: 0;
+  /* transform: translateY(-30%); */
+}
+
 :root {
   --background: hsl(0, 0%, 100%);
   --color: black;
@@ -65,10 +73,10 @@ a {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 2em;
 }
 
 p {
-  font-size: 1.6rem;
+  font-size: 1.6em;
   margin: 0;
 }

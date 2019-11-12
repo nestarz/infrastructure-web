@@ -6,10 +6,17 @@
     >Before Internet, one mean to contact people in different places of the world was using the phone.</p>
     <div v-refs:sequence>
       <p>Each individuals were connected to each others by copper cables.</p>
-      <portal to="map" tag="g" slim>
+      <portal :to="to" tag="g" slim v-for="to in ['map', 'tor']" :key="to">
         <!-- carefull -->
         <template v-if="current === 2 || current === 3">
-          <map-line :from="x[0]" :to="x[1]" stroke="red" v-for="x in randomLL" :key="x[0][0]"></map-line>
+          <map-line :from="x[0]" :to="x[1]" stroke="yellow" v-for="x in randomLL" :key="x[0][0]"></map-line>
+        </template>
+      </portal>
+      <portal to="tor" tag="g" slim>
+        <template v-if="current > 2">
+          <map-marker :coordinates="[10, 1]" r="8" fill="black">
+            <circle r="8" fill="black" />
+          </map-marker>
         </template>
       </portal>
     </div>
@@ -33,7 +40,7 @@
       <portal to="map" tag="g" slim>
         <!-- carefull -->
         <template v-if="current === 12">
-          <map-line :from="[-0.118092, 51.509865]" :to="[51.44083, 5.47778]" stroke="red"></map-line>
+          <map-line :from="[-0.118092, 51.509865]" :to="[51.44083, 5.47778]" stroke="yellow"></map-line>
         </template>
       </portal>
     </div>
@@ -157,12 +164,12 @@ export default {
 
 p,
 pre {
-  max-width: 50rem;
-  font-size: 1.8rem;
+  max-width: 50em;
+  font-size: 1.8em;
 }
 
 pre {
-  font-size: 1.2rem;
+  font-size: 1.2em;
 }
 
 img {

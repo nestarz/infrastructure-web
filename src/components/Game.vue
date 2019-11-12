@@ -5,7 +5,7 @@
         v-if="parent && user"
         :from="[parent.latitude, parent.longitude]"
         :to="[user.longitude, user.latitude]"
-        stroke="red"
+        stroke="yellow"
       ></map-line>
       <template v-for="{longitude, latitude, hostname, address} in childs">
         <map-line
@@ -15,7 +15,7 @@
           :stroke-width="1"
         ></map-line>
         <map-marker :coordinates="[latitude, longitude]" :key="address + Math.random()">
-          <circle r="2" fill="red" />
+          <circle r="2" fill="yellow" />
         </map-marker>
       </template>
     </vue-map>

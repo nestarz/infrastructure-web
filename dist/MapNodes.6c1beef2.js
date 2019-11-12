@@ -42157,7 +42157,11 @@ exports.default = _default;
             return [
               _c("map-marker", {
                 key: ip,
-                attrs: { coordinates: [longitude, latitude], r: 1, fill: "red" }
+                attrs: {
+                  coordinates: [longitude, latitude],
+                  r: 1,
+                  fill: "yellow"
+                }
               })
             ]
           }),

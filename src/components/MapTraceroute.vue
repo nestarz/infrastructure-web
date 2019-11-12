@@ -5,7 +5,7 @@
         v-if="parent && user"
         :from="[parent.longitude, parent.latitude]"
         :to="[user.longitude, user.latitude]"
-        stroke="red"
+        stroke="yellow"
         :stroke-width="24"
       ></map-line>
       <template v-for="{longitude, latitude, hostname} in childs">
@@ -13,15 +13,15 @@
           :from="[parent.longitude, parent.latitude]"
           :to="[longitude, latitude]"
           :key="hostname + longitude"
-          stroke="red"
+          stroke="yellow"
         ></map-line>
         <map-marker
           :coordinates="[longitude, latitude]"
           :key="hostname + latitude"
           :r="2"
-          fill="red"
+          fill="yellow"
         >
-          <circle r="2" fill="red" />
+          <circle r="2" fill="yellow" />
         </map-marker>
       </template>
     </portal>

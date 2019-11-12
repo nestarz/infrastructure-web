@@ -226,6 +226,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 const random = (from, to, fixed) => (Math.random() * (to - from) + from).toFixed(fixed) * 1;
 
 var _default = {
@@ -328,23 +335,42 @@ exports.default = _default;
           )
         ]),
         _vm._v(" "),
+        _vm._l(["map", "tor"], function(to) {
+          return _c(
+            "portal",
+            { key: to, attrs: { to: to, tag: "g", slim: "" } },
+            [
+              _vm.current === 2 || _vm.current === 3
+                ? _vm._l(_vm.randomLL, function(x) {
+                    return _c("map-line", {
+                      key: x[0][0],
+                      attrs: { from: x[0], to: x[1], stroke: "yellow" }
+                    })
+                  })
+                : _vm._e()
+            ],
+            2
+          )
+        }),
+        _vm._v(" "),
         _c(
           "portal",
-          { attrs: { to: "map", tag: "g", slim: "" } },
+          { attrs: { to: "tor", tag: "g", slim: "" } },
           [
-            _vm.current === 2 || _vm.current === 3
-              ? _vm._l(_vm.randomLL, function(x) {
-                  return _c("map-line", {
-                    key: x[0][0],
-                    attrs: { from: x[0], to: x[1], stroke: "red" }
-                  })
-                })
+            _vm.current > 2
+              ? [
+                  _c(
+                    "map-marker",
+                    { attrs: { coordinates: [10, 1], r: "8", fill: "black" } },
+                    [_c("circle", { attrs: { r: "8", fill: "black" } })]
+                  )
+                ]
               : _vm._e()
           ],
           2
         )
       ],
-      1
+      2
     ),
     _vm._v(" "),
     _c("img", {
@@ -468,7 +494,7 @@ exports.default = _default;
                     attrs: {
                       from: [-0.118092, 51.509865],
                       to: [51.44083, 5.47778],
-                      stroke: "red"
+                      stroke: "yellow"
                     }
                   })
                 ]

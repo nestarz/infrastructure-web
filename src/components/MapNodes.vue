@@ -2,7 +2,7 @@
   <div>
     <portal to="map" tag="g" slim>
       <template v-for="{ip, latitude, longitude} in nodes">
-        <map-marker :coordinates="[longitude, latitude]" :key="ip" :r="1" fill="red"></map-marker>
+        <map-marker :coordinates="[longitude, latitude]" :key="ip" :r="1" fill="yellow"></map-marker>
       </template>
       <map-line
         v-if="node1 && node2"

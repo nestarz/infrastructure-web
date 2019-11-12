@@ -1,18 +1,19 @@
 <template>
-  <div class="home" :class="{ dark }">
-    <vue-map></vue-map>
-    <nav>
-      <a href="#" @click="p = p - 1">{{ p - 1 }}</a>
-      <span>The new age</span>
-      <span>Chapter 1</span>
-      <a href="#" @click="p = p + 1">{{ p + 1 }}</a>
-    </nav>
-    <div class="panel">
-      <map-story v-if="p === 1"></map-story>
-      <map-nodes @error="showError" v-if="p === 2"></map-nodes>
-      <map-tld @error="showError" v-if="p === 3"></map-tld>
-      <map-traceroute :hostname="hostname" @error="showError" v-if="p === 4"></map-traceroute>
+  <div>
+    <div class="home">
+      <story class="layer1" :class="{ dark }"></story>
+      <div>
+        <vue-map name="tor" projection="geoMercator" :scale="120"></vue-map>
+      </div>
+      <div></div>
+      <div class="layer2" :class="{ dark }"></div>
     </div>
+    <p class="overlay overlay1">
+      <span v-for="x in 15" :key="x">opt-out the yellow pages</span>
+    </p>
+    <p class="overlay overlay2">
+      <span v-for="x in 15" :key="x">opt-out the yellow pages</span>
+    </p>
   </div>
 </template>
 
@@ -21,23 +22,13 @@ import { ref } from "@vue/composition-api";
 
 export default {
   components: {
-    VueMap: () => import("~/components/Map.vue"),
-    MapStory: () => import("~/components/MapStory.vue"),
-    MapTraceroute: () => import("~/components/MapTraceroute.vue"),
-    MapTld: () => import("~/components/MapTld.vue"),
-    MapNodes: () => import("~/components/MapNodes.vue")
+    Story: () => import("~/components/Story.vue"),
+    VueMap: () => import("~/components/Map.vue")
   },
   setup() {
-    const hostname = ref(null);
-    //create a synth and connect it to the master output (your speakers)
     const dark = ref(false);
     return {
-      p: ref(null),
-      dark,
-      hostname,
-      showError: error => {
-        alert(error);
-      }
+      dark
     };
   }
 };
@@ -46,60 +37,34 @@ export default {
 <style>
 .home {
   display: grid;
-  grid-template-columns: 1fr 0fr 1fr;
-  grid-gap: 3rem;
-  padding: 0 3rem;
-  height: 100vh;
-  max-height: 100vh;
+  background: #d7d7d7;
+  grid-gap: 0px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
 }
 
-.panel {
-  display: grid;
-  grid-auto-rows: min-content;
-  align-content: center;
-  justify-content: center;
-  overflow: hidden;
-  max-width: 50vw;
-}
-
-select {
-  width: 100%;
-}
-
-svg text {
-  font-size: 4rem;
+.home > * {
   background: var(--background);
 }
 
-.dark {
-  --background: hsl(0, 0%, 0%);
-  --color: green;
-
-  background: var(--background);
-  color: var(--color);
-}
-
-nav {
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  font-size: 1.4rem;
-  font-size: 3rem;
+  font-size: 1rem;
+  pointer-events: none;
 }
 
-nav span {
+.overlay2 {
   writing-mode: sideways-lr;
 }
 
-nav a:focus {
-  /* border: 1px solid;
-  padding: 0.2rem 0.8rem; */
+.overlay span {
+  margin-right: 1rem;
 }
-
-/* nav a:focus:after {
-  position: absolute;
-  content: "/";
-  transform: scale(6, 0.3) translateX(-0.1rem);
-} */
 </style>

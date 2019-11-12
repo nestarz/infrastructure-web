@@ -3564,24 +3564,36 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 var _default = {
-  setup() {
+  props: {
+    projection: {
+      type: String,
+      default: "geoOrthographic"
+    },
+    name: String,
+    rotate: Boolean,
+    scale: {
+      type: Number,
+      default: 80
+    }
+  },
+
+  setup(props) {
     const rotate = (0, _compositionApi.reactive)({
       x: 0,
       y: 0
     });
     const config = (0, _compositionApi.computed)(() => ({
       rotate: [rotate.x, rotate.y - 30],
-      scale: 200
+      scale: props.scale
     }));
 
     const animate = () => {
       rotate.x = rotate.x + 0.1; // rotate.y = rotate.y - 0.1;
     };
 
-    (0, _requestAnimationFps.default)(animate, 20);
+    props.rotate && (0, _requestAnimationFps.default)(animate, 20);
     return {
       config,
-      projection: "geoOrthographic",
       geoUrl: _world110m.default
     };
   }
@@ -3639,7 +3651,7 @@ exports.default = _default;
         ])
       }),
       _vm._v(" "),
-      _c("portal-target", { attrs: { name: "map", tag: "g", multiple: "" } })
+      _c("portal-target", { attrs: { name: _vm.name, tag: "g", multiple: "" } })
     ],
     1
   )

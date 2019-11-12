@@ -51,7 +51,7 @@ export default {
     const typeByColor = {
       generic: "blue",
       sponsored: "yellow",
-      "country-code": "red"
+      "country-code": "yellow"
     };
     const TLDs = ref(null);
     const currentTLD = ref(null);
@@ -91,7 +91,7 @@ export default {
       TLDs,
       colorType: (type, domain, current) => {
         if (current && current.domain) {
-          return current.domain === domain ? "red" : "white";
+          return current.domain === domain ? "yellow" : "white";
         }
         return typeByColor[type] || "black";
       }

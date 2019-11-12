@@ -1325,7 +1325,7 @@ exports.default = _default;
                     attrs: {
                       from: [_vm.parent.longitude, _vm.parent.latitude],
                       to: [_vm.user.longitude, _vm.user.latitude],
-                      stroke: "red",
+                      stroke: "yellow",
                       "stroke-width": 24
                     }
                   })
@@ -1341,7 +1341,7 @@ exports.default = _default;
                     attrs: {
                       from: [_vm.parent.longitude, _vm.parent.latitude],
                       to: [longitude, latitude],
-                      stroke: "red"
+                      stroke: "yellow"
                     }
                   }),
                   _vm._v(" "),
@@ -1352,10 +1352,10 @@ exports.default = _default;
                       attrs: {
                         coordinates: [longitude, latitude],
                         r: 2,
-                        fill: "red"
+                        fill: "yellow"
                       }
                     },
-                    [_c("circle", { attrs: { r: "2", fill: "red" } })]
+                    [_c("circle", { attrs: { r: "2", fill: "yellow" } })]
                   )
                 ]
               })

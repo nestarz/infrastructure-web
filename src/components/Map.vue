@@ -13,7 +13,7 @@
         ></map-geography>
       </template>
     </map-geographies>
-    <portal-target name="map" tag="g" multiple></portal-target>
+    <portal-target :name="name" tag="g" multiple></portal-target>
   </map-composable>
 </template>
 
@@ -24,23 +24,28 @@ import world110m from "~/assets/json/world-110m.json";
 import requestAnimationFps from "~/utils/requestAnimationFps.js";
 
 export default {
-  setup() {
+  props: {
+    projection: { type: String, default: "geoOrthographic" },
+    name: String,
+    rotate: Boolean,
+    scale: { type: Number, default: 80 },
+  },
+  setup(props) {
     const rotate = reactive({
       x: 0,
       y: 0
     });
     const config = computed(() => ({
       rotate: [rotate.x, rotate.y - 30],
-      scale: 200
+      scale: props.scale
     }));
     const animate = () => {
       rotate.x = rotate.x + 0.1;
       // rotate.y = rotate.y - 0.1;
     };
-    requestAnimationFps(animate, 20);
+    props.rotate && requestAnimationFps(animate, 20);
     return {
       config,
-      projection: "geoOrthographic",
       geoUrl: world110m
     };
   }
@@ -49,6 +54,6 @@ export default {
 
 <style scoped>
 .map {
-  max-height: 100vh;
+  max-height: 50vh;
 }
 </style>
