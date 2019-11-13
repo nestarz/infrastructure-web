@@ -49337,7 +49337,26 @@ exports.default = void 0;
 
 var _compositionApi = require("@vue/composition-api");
 
-const rotate = (arr, x) => arr.slice(x).concat(arr.slice(0, x));
+const rotate = (arr, x) => {
+  const res = arr.slice(x).concat(arr.slice(0, x));
+  return res;
+};
+
+const wait = (duration, play) => new Promise(resolve => {
+  const ended = (0, _compositionApi.ref)(false);
+  const timeout = setTimeout(() => {
+    ended.value = true;
+  }, duration);
+  const stopWatch = (0, _compositionApi.watch)([ended, play], () => {
+    if (ended.value || !play.value) {
+      clearTimeout(timeout);
+      stopWatch();
+      resolve();
+    }
+  }, {
+    lazy: true
+  });
+});
 
 var _default = ({
   duration = 3000,
@@ -49345,45 +49364,56 @@ var _default = ({
 }) => {
   const sequences = (0, _compositionApi.ref)([]);
   const current = (0, _compositionApi.ref)(0);
+  const order = (0, _compositionApi.computed)(() => rotate([...sequences.value.entries()], current.value || 0));
   const play = (0, _compositionApi.ref)(true);
-  const jump = (0, _compositionApi.ref)(null);
+  const jump = (0, _compositionApi.ref)(0);
   const stopped = (0, _compositionApi.ref)(false);
+  const running = (0, _compositionApi.ref)(false);
+  let previous;
 
   const animate = async () => {
-    stopped.value = false;
-
-    for (const [i, seq] of rotate([...sequences.value.entries()], current.value || 0)) {
-      current.value = i;
-      seq.current = true;
-      await new Promise(resolve => {
-        let end = false;
-        const timeout = setTimeout(() => {
-          end = true;
-        }, seq.duration || duration);
-        const interval = setInterval(() => {
-          if (jump.value || end) {
-            clearTimeout(timeout);
-            clearInterval(interval);
-            resolve();
-          }
-        }, 10);
-      });
-      if (!play.value && !jump.value) break;
-      seq.current = false;
-
-      if (jump.value) {
-        console.log("jumped");
-        jump.value = false;
-        break;
-      }
+    if (running.value) {
+      console.error("Can't launch another animation.");
     }
 
-    if (loop && play.value) animate();else stopped.value = true;
+    running.value = true;
+
+    for (const [i, sequence] of order.value) {
+      if (previous) previous.display = false;
+      current.value = i;
+      sequence.display = true;
+      previous = sequence;
+      await wait(duration || sequence.duration, play);
+
+      if (!play.value) {
+        break;
+      }
+
+      sequence.display = false;
+    }
+
+    running.value = false;
+
+    if (play.value && loop) {
+      animate();
+    }
   };
 
   (0, _compositionApi.watch)([sequences, play], () => {
-    if (!sequences.value.length) return;
-    if (play) animate();
+    if (sequences.value.length && play.value && !running.value) {
+      animate();
+    }
+  });
+  (0, _compositionApi.watch)([jump, play], () => {
+    if (!play.value && jump.value) {
+      current.value = (current.value + jump.value) % sequences.value.length;
+      setTimeout(() => {
+        play.value = true;
+      }, 1);
+      jump.value = null;
+    }
+  }, {
+    lazy: true
   });
   return {
     sequences,
@@ -49392,13 +49422,8 @@ var _default = ({
       play.value = value;
     },
     jump: value => {
-      jump.value = true;
-      current.value += value;
-
-      if (!play.value) {
-        console.log(current.value);
-        animate();
-      }
+      play.value = false;
+      jump.value = value;
     },
     stopped
   };

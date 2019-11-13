@@ -1,6 +1,6 @@
 <template>
-  <div class="sequence portal-only">
-    <template v-if="current">
+  <div class="sequence portal-only" :class="order !== -1 && `sequence-${order}`">
+    <template v-if="display">
       <slot />
     </template>
   </div>
@@ -13,7 +13,8 @@ export default {
   },
   setup() {
     return {
-      current: false
+      display: false,
+      order: -1
     };
   }
 };

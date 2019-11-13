@@ -1,54 +1,86 @@
-import { ref, watch } from "@vue/composition-api";
+import { ref, watch, computed } from "@vue/composition-api";
 
-const rotate = (arr, x) => arr.slice(x).concat(arr.slice(0, x));
+const rotate = (arr, x) => {
+  const res = arr.slice(x).concat(arr.slice(0, x));
+  return res;
+};
+
+const wait = (duration, play) =>
+  new Promise(resolve => {
+    const ended = ref(false);
+    const timeout = setTimeout(() => {
+      ended.value = true;
+    }, duration);
+
+    const stopWatch = watch(
+      [ended, play],
+      () => {
+        if (ended.value || !play.value) {
+          clearTimeout(timeout);
+          stopWatch();
+          resolve();
+        }
+      },
+      { lazy: true }
+    );
+  });
 
 export default ({ duration = 3000, loop = false }) => {
   const sequences = ref([]);
   const current = ref(0);
+  const order = computed(() =>
+    rotate([...sequences.value.entries()], current.value || 0)
+  );
+
   const play = ref(true);
-  const jump = ref(null);
+  const jump = ref(0);
   const stopped = ref(false);
+  const running = ref(false);
 
+  let previous;
   const animate = async () => {
-    stopped.value = false;
-    for (const [i, seq] of rotate(
-      [...sequences.value.entries()],
-      current.value || 0
-    )) {
+    if (running.value) {
+      console.error("Can't launch another animation.");
+    }
+  
+    running.value = true;
+    for (const [i, sequence] of order.value) {
+      if (previous) previous.display = false;
       current.value = i;
-      
-      seq.current = true;
-      await new Promise(resolve => {
-        let end = false;
-        const timeout = setTimeout(() => {
-          end = true;
-        }, seq.duration || duration);
-        const interval = setInterval(() => {
-          if (jump.value || end) {
-            clearTimeout(timeout);
-            clearInterval(interval);
-            resolve();
-          }
-        }, 10);
-      });
-      if (!play.value && !jump.value) break;
-      seq.current = false;
-
-      if (jump.value) {
-        console.log("jumped");
-        jump.value = false;
+      sequence.display = true;
+      previous = sequence;
+      await wait(duration || sequence.duration, play);
+      if (!play.value) {
         break;
       }
+      sequence.display = false;
     }
-    if (loop && play.value) animate();
-    else stopped.value = true;
+    running.value = false;
+    if (play.value && loop) {
+      animate();
+    }
   };
 
   watch([sequences, play], () => {
-    if (!sequences.value.length) return;
-    if (play) animate();
+    if (sequences.value.length && play.value && !running.value) {
+      animate();
+    }
   });
-  
+
+  watch(
+    [jump, play],
+    () => {
+      if (!play.value && jump.value) {
+        current.value = (current.value + jump.value) % sequences.value.length;
+        setTimeout(() => {
+          play.value = true;
+        }, 1);
+        jump.value = null;
+      }
+    },
+    { lazy: true }
+  );
+
   return {
     sequences,
     current,
@@ -56,12 +88,8 @@ export default ({ duration = 3000, loop = false }) => {
       play.value = value;
     },
     jump: value => {
-      jump.value = true;
-      current.value += value;
-      if(!play.value) {
-        console.log(current.value);
-        animate();
-      }
+      play.value = false;
+      jump.value = value;
     },
     stopped
   };
