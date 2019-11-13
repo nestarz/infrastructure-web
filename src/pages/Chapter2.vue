@@ -21,10 +21,6 @@
     <sequence :duration="duration" @controls="setControls" @ended="ended">
       <sequence>
         <portal to="screen-4-text">
-          <sequence :duration="duration / 2">
-            <sequence>TEEST</sequence>
-            <sequence>LOL</sequence>
-          </sequence>
           Dark networks
           <i>(ie. Darknets)</i> are built upon internet ecosystem. They uses the
           sames addresses, routers, registries and cables.
@@ -41,15 +37,24 @@
         </portal>
       </sequence>
       <sequence>
-        <portal to="screen-4-text"
-          >Tor is based on relays. As the olympic game, the emitter give the
-          message to relays until destination is reached. The message is crypted
-          at each relay and only the emitter know which relays have been used.
-          Recipient don't know who is the original emitter, and only know the
-          last relay. Same for routers and opeerators, the information of the
-          emitter is unknown. Relays are others users of the networks. At each
-          connection, a new team of relay is found.</portal
-        >
+        <portal to="screen-4-text">
+          <sequence :duration="duration / 4">
+            <sequence>Tor is based on relays.</sequence>
+            <sequence
+              >As the olympic game, the emitter give the message to relays until
+              destination is reached.</sequence
+            >
+            <sequence
+              >Recipient don't know who is the original emitter, and only know
+              the last relay. Same for routers and opeerators, the information
+              of the emitter is unknown.</sequence
+            >
+            <sequence
+              >Relays are others users of the networks. At each connection, a
+              new team of relay is found.</sequence
+            >
+          </sequence>
+        </portal>
       </sequence>
     </sequence>
   </screens>
@@ -73,7 +78,7 @@ export default {
       controls,
       setControls: value => (controls.value = value),
       ended: () => null,
-      duration: 5000,
+      duration: 10000,
       telegraph: []
     };
   }

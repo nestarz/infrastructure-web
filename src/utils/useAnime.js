@@ -68,13 +68,14 @@ export default ({ sequences, duration = 3000, loop = false }) => {
     }
   });
 
+  let wasPlaying = false;
   watch(
     [jump, play],
     () => {
       if (!play.value && jump.value) {
         current.value = (current.value + jump.value) % sequences.value.length;
         setTimeout(() => {
-          play.value = true;
+          play.value = wasPlaying;
           pause.value = false;
         }, 1);
         jump.value = null;
@@ -91,6 +92,7 @@ export default ({ sequences, duration = 3000, loop = false }) => {
       pause.value = !value;
     },
     jump: value => {
+      wasPlaying = play.value;
       play.value = false;
       pause.value = true;
       jump.value = value;
