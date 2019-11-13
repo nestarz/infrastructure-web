@@ -18,7 +18,12 @@
     <portal to="screen-4">
       <portal-target name="screen-4-text" class="screen-text"></portal-target>
     </portal>
-    <sequence :duration="1000" @controls="setControls" @ended="ended">
+    <sequence
+      :duration="duration"
+      @controls="setControls"
+      @ended="ended"
+      :autoplay="false"
+    >
       <sequence>
         <portal to="screen-4-text">
           <pre>
@@ -128,6 +133,7 @@ export default {
     return {
       sequence,
       controls,
+      duration: 10000,
       setControls: value => (controls.value = value),
       ended: () => root._router.push({ path: "/chapter/2" }),
       telegraph: []

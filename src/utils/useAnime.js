@@ -25,18 +25,22 @@ const wait = (duration, play) =>
     );
   });
 
-export default ({ sequences, duration = 3000, loop = false }) => {
+export default ({
+  sequences,
+  duration = 3000,
+  loop = false,
+  autoplay = true
+}) => {
   const current = ref(0);
   const order = computed(() =>
     rotate([...sequences.value.entries()], current.value || 0)
   );
 
-  const play = ref(true);
+  const play = ref(autoplay);
   const pause = ref(false);
   const jump = ref(0);
   const running = ref(false);
 
-  let previous;
   const animate = async () => {
     if (running.value) {
       console.error("Can't launch another animation.");
@@ -44,15 +48,11 @@ export default ({ sequences, duration = 3000, loop = false }) => {
 
     running.value = true;
     for (const [i, sequence] of order.value) {
-      if (previous) previous.display = false;
       current.value = i;
-      sequence.display = true;
-      previous = sequence;
       await wait(duration || sequence.duration, play);
       if (!play.value) {
         break;
       }
-      sequence.display = false;
     }
     running.value = false;
     if (play.value && loop) {

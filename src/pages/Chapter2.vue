@@ -18,7 +18,12 @@
     <portal to="screen-4">
       <portal-target name="screen-4-text" class="screen-text"></portal-target>
     </portal>
-    <sequence :duration="duration" @controls="setControls" @ended="ended">
+    <sequence
+      :duration="duration"
+      @controls="setControls"
+      @ended="ended"
+      :autoplay="false"
+    >
       <sequence>
         <portal to="screen-4-text">
           Dark networks

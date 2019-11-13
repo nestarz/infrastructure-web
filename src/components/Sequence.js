@@ -17,7 +17,8 @@ export default {
     const { current, play, ended, jump } = useAnime({
       sequences,
       duration: props.duration,
-      loop: props.loop
+      loop: props.loop,
+      autoplay: props.autoplay,
     });
     emit("controls", { jump, play, current });
     watch(ended, () => ended.value && emit("ended", ended.value));
