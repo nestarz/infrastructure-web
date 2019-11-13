@@ -1,11 +1,12 @@
-const util = require("util");
+const util = require('util');
 
-const jsdom = require("jsdom");
+const jsdom = require('jsdom');
+
 const { JSDOM } = jsdom;
-const normalizeUrl = require("normalize-url");
+const normalizeUrl = require('normalize-url');
 
-const geoip = require("geoip-lite");
-const dns = require("dns");
+const geoip = require('geoip-lite');
+const dns = require('dns');
 
 const normalizeUrlWrapper = (...args) => {
   try {
@@ -15,19 +16,18 @@ const normalizeUrlWrapper = (...args) => {
   }
 };
 
-const lookup = async url =>
-  new Promise((resolve, reject) => {
-    const hostname = new URL(url).hostname;
-    dns.lookup(hostname, (err, address) => {
-      if (err) resolve(null);
-      util.log("Lookup", hostname);
-      resolve({ hostname, address });
-    });
+const lookup = async (url) => new Promise((resolve, reject) => {
+  const { hostname } = new URL(url);
+  dns.lookup(hostname, (err, address) => {
+    if (err) resolve(null);
+    util.log('Lookup', hostname);
+    resolve({ hostname, address });
   });
+});
 
 const getGeo = ({ hostname, address }) => {
   const geo = geoip.lookup(address);
-  util.log("Geo", hostname);
+  util.log('Geo', hostname);
   if (!geo) return null;
   return {
     hostname,
@@ -36,13 +36,13 @@ const getGeo = ({ hostname, address }) => {
     city: geo.country,
     latitude: geo.ll[0],
     longitude: geo.ll[1],
-  }
-}
+  };
+};
 
-const onlySuccessLookup = v => !!v;
-const onlySuccessNormalizeUrl = v => !!v;
+const onlySuccessLookup = (v) => !!v;
+const onlySuccessNormalizeUrl = (v) => !!v;
 
-const getLinks = async url => {
+const getLinks = async (url) => {
   const resources_hostnames = new Set();
 
   class CustomResourceLoader extends jsdom.ResourceLoader {
@@ -56,7 +56,7 @@ const getLinks = async url => {
 
   const options = {
     resources: new CustomResourceLoader(),
-    runScripts: "dangerously",
+    runScripts: 'dangerously',
     pretendToBeVisual: true,
     virtualConsole: new jsdom.VirtualConsole(),
     cookieJar: new jsdom.CookieJar(),
@@ -67,37 +67,37 @@ const getLinks = async url => {
   const dom = await JSDOM.fromURL(url, options);
 
   [
-    ...dom.window.document.getElementsByTagName("link"),
-    ...dom.window.document.getElementsByTagName("script")
+    ...dom.window.document.getElementsByTagName('link'),
+    ...dom.window.document.getElementsByTagName('script'),
   ]
-    .map(element => element.getAttribute("href") || element.getAttribute("src"))
-    .filter(href => href)
+    .map((element) => element.getAttribute('href') || element.getAttribute('src'))
+    .filter((href) => href)
     .map(normalizeUrlWrapper)
     .filter(onlySuccessNormalizeUrl)
-    .map(href => new URL(href).hostname)
+    .map((href) => new URL(href).hostname)
     .map(normalizeUrlWrapper)
     .filter(onlySuccessNormalizeUrl)
-    .forEach(hostname => resources_hostnames.add(hostname));
+    .forEach((hostname) => resources_hostnames.add(hostname));
 
   console.log(resources_hostnames);
   return [...resources_hostnames];
-}
+};
 
 const mapping = async (hostname) => {
   const url = hostname;
 
   const parent = (await Promise.all([url].map(lookup)))
-  .filter(onlySuccessLookup)
-  .map(getGeo)[0];
-  
+    .filter(onlySuccessLookup)
+    .map(getGeo)[0];
+
   const links = await getLinks(url);
   const childs = (await Promise.all(links.map(lookup)))
     .filter(onlySuccessLookup)
     .map(getGeo)
-    .filter(onlySuccessLookup)
+    .filter(onlySuccessLookup);
 
   return { parent, childs };
-}
+};
 
 exports.mapping = async (req, res) => {
   try {
@@ -108,4 +108,4 @@ exports.mapping = async (req, res) => {
   } catch (error) {
     res.status(500).send({ error: error.toString(), status: 500 });
   }
-}
+};

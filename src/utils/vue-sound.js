@@ -1,5 +1,5 @@
-import Tone from "tone";
-import { onUnmounted, ref } from "@vue/composition-api";
+import Tone from 'tone';
+import { onUnmounted, ref } from '@vue/composition-api';
 
 const songs = {
   connection: () => {
@@ -8,24 +8,24 @@ const songs = {
 
     return () => {
       player.dispose();
-    }
+    };
   },
   c4: () => {
     Tone.Transport.bpm.value = 100;
 
-    var notes = ['C4', 'C4'];
-    var current_note = 0;
+    const notes = ['C4', 'C4'];
+    let current_note = 0;
 
-    var synth = new Tone.DuoSynth();
-    var gain = new Tone.Gain(0.9);
+    const synth = new Tone.DuoSynth();
+    const gain = new Tone.Gain(0.9);
     synth.connect(gain);
     gain.toMaster();
 
     synth.voice0.oscillator.type = 'triangle';
     synth.voice1.oscillator.type = 'triangle';
 
-    Tone.Transport.scheduleRepeat(function (time) {
-      var note = notes[current_note % notes.length];
+    Tone.Transport.scheduleRepeat((time) => {
+      const note = notes[current_note % notes.length];
       synth.triggerAttackRelease(note, '20n', time);
       current_note++;
     }, '20n');
@@ -36,24 +36,24 @@ const songs = {
       Tone.Transport.cancel();
       synth.dispose();
       gain.dispose();
-    }
+    };
   },
   simplePlay: () => {
-    var synth = new Tone.Synth().toMaster();
-    synth.triggerAttackRelease("D4", "8n");
+    const synth = new Tone.Synth().toMaster();
+    synth.triggerAttackRelease('D4', '8n');
 
     return () => synth.dispose();
-  }
-}
+  },
+};
 
 const useSound = () => {
   const isPlaying = ref(false);
   const dispose = ref(null);
 
-  const play = song => {
+  const play = (song) => {
     isPlaying.value = true;
     dispose.value = songs[song]();
-  }
+  };
 
   const stop = () => {
     if (isPlaying.value) {
@@ -64,7 +64,7 @@ const useSound = () => {
         // Tone.context = new AudioContext();
       }
     }
-  }
+  };
 
   onUnmounted(stop);
   return { play, stop, isPlaying };

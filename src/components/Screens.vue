@@ -8,9 +8,11 @@
     </main>
     <nav>
       <ul>
-        <router-link :to="`/chapter/${chapter - 1}`">{{ chapter - 1}}</router-link>
+        <router-link :to="`/chapter/${chapter - 1}`">Chapter {{ chapter - 1}}</router-link>
+        <li @click="rewind">Rewind</li>
         <li @click="toggle">{{ play ? 'Pause' : 'Play' }}</li>
-        <router-link :to="`/chapter/${chapter + 1}`">{{ chapter + 1}}</router-link>
+        <li @click="forward">Forward</li>
+        <router-link :to="`/chapter/${chapter + 1}`">Chapter {{ chapter + 1}}</router-link>
       </ul>
     </nav>
     <footer v-for="x in 2" :key="x">
@@ -33,7 +35,9 @@ export default {
     return {
       title: "opt-out the yellow pages",
       toggle: () => (play.value = !play.value),
-      play
+      play,
+      forward: () => emit("jump", +1),
+      rewind: () => emit("jump", -1)
     };
   }
 };
@@ -92,6 +96,7 @@ section:nth-of-type(1) {
 nav {
   position: fixed;
   display: flex;
+  flex-wrap: wrap;
   pointer-events: none;
   justify-content: center;
   align-items: center;

@@ -1,5 +1,5 @@
 <template>
-  <screens :chapter="1" @play="play">
+  <screens :chapter="1" @play="play" @jump="jump">
     <portal to="screen-1">
       <story-map name="screen-1-map" :rotate="true"></story-map>
       <portal-target name="screen-1-text" class="screen-1-text"></portal-target>
@@ -9,7 +9,11 @@
       <pre>Internet ∋ Telegraph</pre>
     </portal>
     <portal to="screen-2">
-      <story-map name="screen-2-map" projection="geoMercator" :scale="120"></story-map>
+      <story-map
+        name="screen-2-map"
+        projection="geoMercator"
+        :scale="120"
+      ></story-map>
     </portal>
     <portal to="screen-4">
       <portal-target name="screen-4-text" class="screen-text"></portal-target>
@@ -29,9 +33,10 @@ INTERNET BIRTH ~ October 29, 1969
       </portal>
     </sequence>
     <sequence v-refs:sequences>
-      <portal
-        to="screen-4-text"
-      >As the first electrical telecommunications system, the Telegraph and the Telephone, have a lot in common with today's Internet.</portal>
+      <portal to="screen-4-text"
+        >As the first electrical telecommunications system, the Telegraph and
+        the Telephone, have a lot in common with today's Internet.</portal
+      >
       <portal to="screen-3">
         <img
           style="max-height: 100%"
@@ -45,14 +50,16 @@ INTERNET BIRTH ~ October 29, 1969
       </portal>
     </sequence>
     <sequence v-refs:sequences>
-      <portal
-        to="screen-4-text"
-      >Communications were made between poles trough copper cables and wires.</portal>
+      <portal to="screen-4-text"
+        >Communications were made between poles trough copper cables and
+        wires.</portal
+      >
     </sequence>
     <sequence v-refs:sequences>
       <portal to="screen-4-text">
         At each pole,
-        <strong>switchboard operators</strong> pointed communication to the right cable route.
+        <strong>switchboard operators</strong> pointed communication to the
+        right cable route.
       </portal>
     </sequence>
     <sequence v-refs:sequences>
@@ -64,33 +71,39 @@ INTERNET BIRTH ~ October 29, 1969
     <sequence v-refs:sequences>
       <portal to="screen-4-text">
         All addresses are listed in a single file,
-        <strong>a phone book,</strong> to be used by operators, authorities and senders.
+        <strong>a phone book,</strong> to be used by operators, authorities and
+        senders.
       </portal>
     </sequence>
     <sequence v-refs:sequences>
       <portal to="screen-4-text">
         Internet is a superset with
-        <strong>new protocols and automation systems</strong> but share the same logic with wires, routing and address registries.
+        <strong>new protocols and automation systems</strong> but share the same
+        logic with wires, routing and address registries.
       </portal>
     </sequence>
     <sequence v-refs:sequences>
       <portal to="screen-4-text">
         <strong>Routers are Switchboard operators.</strong>
-        They receive the same information, the message and the wanted destination.
-        They both know the best route to transmit the communication and how.
+        They receive the same information, the message and the wanted
+        destination. They both know the best route to transmit the communication
+        and how.
       </portal>
     </sequence>
     <sequence v-refs:sequences>
       <portal to="screen-4-text">
         <strong>IP addresses are Phone addresses.</strong>
-        An IP is unique in the world, and to preserve uniqueness, only ICANN give them.
-        Uniquness is needed to reach destination without any other information than IP.
+        An IP is unique in the world, and to preserve uniqueness, only ICANN
+        give them. Uniquness is needed to reach destination without any other
+        information than IP.
       </portal>
     </sequence>
     <sequence v-refs:sequences>
       <portal to="screen-4-text">
         <strong>Internet Registries are Phone book.</strong>
-        Where phone books were only per countries, all registries in Internet are subset of a single registry, from ICANN. This unique phone book is used by operators to attribute to people available addresses.
+        Where phone books were only per countries, all registries in Internet
+        are subset of a single registry, from ICANN. This unique phone book is
+        used by operators to attribute to people available addresses.
       </portal>
     </sequence>
   </screens>
@@ -107,18 +120,19 @@ export default {
     StoryMap: () => import("~/components/Map.vue")
   },
   setup(props, { root }) {
-    const { sequences, current, play, stopped } = useAnime({
+    const { sequences, current, play, stopped, jump } = useAnime({
       duration: 3000,
-      loop: false
+      loop: true
     });
-    watch(
-      stopped,
-      () => stopped.value && root._router.push({ path: "/chapter/2" })
-    );
+    // watch(
+    //   stopped,
+    //   () => stopped.value && root._router.push({ path: "/chapter/2" })
+    // );
 
     return {
       sequences,
       play,
+      jump,
       telegraph: [
         [2.074458, 47.795445],
         [10.683946, 51.217896],

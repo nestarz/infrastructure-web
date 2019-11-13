@@ -17972,9 +17972,7 @@ var _default = anime;
 exports.default = _default;
 },{}],"utils/vueAnime.js":[function(require,module,exports) {
 (function () {
-  'use strict';
-
-  var anime = require('animejs');
+  let anime = require('animejs');
 
   if (anime.default) {
     anime = anime.default;
@@ -17983,15 +17981,15 @@ exports.default = _default;
   function install(Vue) {
     Vue.directive('anime', {
       bind: function bind(targets, binding) {
-        var opts = Object.assign({}, binding.value, {
+        let opts = { ...binding.value,
           targets: targets
-        });
+        };
         anime(opts);
       },
       update: function bind(targets, binding) {
-        var opts = Object.assign({}, binding.value, {
+        let opts = { ...binding.value,
           targets: targets
-        });
+        };
         anime(opts);
       }
     });
@@ -17999,7 +17997,7 @@ exports.default = _default;
   }
 
   module.exports = {
-    install: install
+    install
   };
 })();
 },{"animejs":"../node_modules/animejs/lib/anime.es.js"}],"../node_modules/portal-vue/dist/portal-vue.common.js":[function(require,module,exports) {
@@ -49345,10 +49343,10 @@ var _default = ({
   duration = 3000,
   loop = false
 }) => {
-  console.log(duration);
   const sequences = (0, _compositionApi.ref)([]);
   const current = (0, _compositionApi.ref)(0);
   const play = (0, _compositionApi.ref)(true);
+  const jump = (0, _compositionApi.ref)(null);
   const stopped = (0, _compositionApi.ref)(false);
 
   const animate = async () => {
@@ -49357,9 +49355,27 @@ var _default = ({
     for (const [i, seq] of rotate([...sequences.value.entries()], current.value || 0)) {
       current.value = i;
       seq.current = true;
-      await new Promise(resolve => setTimeout(resolve, seq.duration || duration));
-      if (!play.value) break;
+      await new Promise(resolve => {
+        let end = false;
+        const timeout = setTimeout(() => {
+          end = true;
+        }, seq.duration || duration);
+        const interval = setInterval(() => {
+          if (jump.value || end) {
+            clearTimeout(timeout);
+            clearInterval(interval);
+            resolve();
+          }
+        }, 10);
+      });
+      if (!play.value && !jump.value) break;
       seq.current = false;
+
+      if (jump.value) {
+        console.log("jumped");
+        jump.value = false;
+        break;
+      }
     }
 
     if (loop && play.value) animate();else stopped.value = true;
@@ -49372,7 +49388,18 @@ var _default = ({
   return {
     sequences,
     current,
-    play: value => play.value = value,
+    play: value => {
+      play.value = value;
+    },
+    jump: value => {
+      jump.value = true;
+      current.value += value;
+
+      if (!play.value) {
+        console.log(current.value);
+        animate();
+      }
+    },
     stopped
   };
 };
@@ -49406,7 +49433,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56844" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58217" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
