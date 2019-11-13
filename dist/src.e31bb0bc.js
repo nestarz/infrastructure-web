@@ -31932,1539 +31932,7 @@ function _default(polygon, point) {
 
   return (angle < -_math.epsilon || angle < _math.epsilon && sum < -_math.epsilon) ^ winding & 1;
 }
-},{"./adder.js":"../node_modules/d3-geo/src/adder.js","./cartesian.js":"../node_modules/d3-geo/src/cartesian.js","./math.js":"../node_modules/d3-geo/src/math.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/ascending.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-function _default(a, b) {
-  return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/bisector.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var _ascending = _interopRequireDefault(require("./ascending.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _default(compare) {
-  if (compare.length === 1) compare = ascendingComparator(compare);
-  return {
-    left: function (a, x, lo, hi) {
-      if (lo == null) lo = 0;
-      if (hi == null) hi = a.length;
-
-      while (lo < hi) {
-        var mid = lo + hi >>> 1;
-        if (compare(a[mid], x) < 0) lo = mid + 1;else hi = mid;
-      }
-
-      return lo;
-    },
-    right: function (a, x, lo, hi) {
-      if (lo == null) lo = 0;
-      if (hi == null) hi = a.length;
-
-      while (lo < hi) {
-        var mid = lo + hi >>> 1;
-        if (compare(a[mid], x) > 0) hi = mid;else lo = mid + 1;
-      }
-
-      return lo;
-    }
-  };
-}
-
-function ascendingComparator(f) {
-  return function (d, x) {
-    return (0, _ascending.default)(f(d), x);
-  };
-}
-},{"./ascending.js":"../node_modules/d3-geo/node_modules/d3-array/src/ascending.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/bisect.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.bisectLeft = exports.bisectRight = void 0;
-
-var _ascending = _interopRequireDefault(require("./ascending.js"));
-
-var _bisector = _interopRequireDefault(require("./bisector.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ascendingBisect = (0, _bisector.default)(_ascending.default);
-var bisectRight = ascendingBisect.right;
-exports.bisectRight = bisectRight;
-var bisectLeft = ascendingBisect.left;
-exports.bisectLeft = bisectLeft;
-var _default = bisectRight;
-exports.default = _default;
-},{"./ascending.js":"../node_modules/d3-geo/node_modules/d3-array/src/ascending.js","./bisector.js":"../node_modules/d3-geo/node_modules/d3-array/src/bisector.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/count.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = count;
-
-function count(values, valueof) {
-  let count = 0;
-
-  if (valueof === undefined) {
-    for (let value of values) {
-      if (value != null && (value = +value) >= value) {
-        ++count;
-      }
-    }
-  } else {
-    let index = -1;
-
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null && (value = +value) >= value) {
-        ++count;
-      }
-    }
-  }
-
-  return count;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/cross.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = cross;
-
-function length(array) {
-  return array.length | 0;
-}
-
-function empty(length) {
-  return !(length > 0);
-}
-
-function arrayify(values) {
-  return typeof values !== "object" || "length" in values ? values : Array.from(values);
-}
-
-function reducer(reduce) {
-  return values => reduce(...values);
-}
-
-function cross(...values) {
-  const reduce = typeof values[values.length - 1] === "function" && reducer(values.pop());
-  values = values.map(arrayify);
-  const lengths = values.map(length);
-  const j = values.length - 1;
-  const index = new Array(j + 1).fill(0);
-  const product = [];
-  if (j < 0 || lengths.some(empty)) return product;
-
-  while (true) {
-    product.push(index.map((j, i) => values[i][j]));
-    let i = j;
-
-    while (++index[i] === lengths[i]) {
-      if (i === 0) return reduce ? product.map(reduce) : product;
-      index[i--] = 0;
-    }
-  }
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/cumsum.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = cumsum;
-
-function cumsum(values, valueof) {
-  var sum = 0,
-      index = 0;
-  return Float64Array.from(values, valueof === undefined ? v => sum += +v || 0 : v => sum += +valueof(v, index++, values) || 0);
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/descending.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-function _default(a, b) {
-  return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/variance.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = variance;
-
-function variance(values, valueof) {
-  let count = 0;
-  let delta;
-  let mean = 0;
-  let sum = 0;
-
-  if (valueof === undefined) {
-    for (let value of values) {
-      if (value != null && (value = +value) >= value) {
-        delta = value - mean;
-        mean += delta / ++count;
-        sum += delta * (value - mean);
-      }
-    }
-  } else {
-    let index = -1;
-
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null && (value = +value) >= value) {
-        delta = value - mean;
-        mean += delta / ++count;
-        sum += delta * (value - mean);
-      }
-    }
-  }
-
-  if (count > 1) return sum / (count - 1);
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/deviation.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = deviation;
-
-var _variance = _interopRequireDefault(require("./variance.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function deviation(values, valueof) {
-  const v = (0, _variance.default)(values, valueof);
-  return v ? Math.sqrt(v) : v;
-}
-},{"./variance.js":"../node_modules/d3-geo/node_modules/d3-array/src/variance.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/extent.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-function _default(values, valueof) {
-  let min;
-  let max;
-
-  if (valueof === undefined) {
-    for (const value of values) {
-      if (value != null) {
-        if (min === undefined) {
-          if (value >= value) min = max = value;
-        } else {
-          if (min > value) min = value;
-          if (max < value) max = value;
-        }
-      }
-    }
-  } else {
-    let index = -1;
-
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null) {
-        if (min === undefined) {
-          if (value >= value) min = max = value;
-        } else {
-          if (min > value) min = value;
-          if (max < value) max = value;
-        }
-      }
-    }
-  }
-
-  return [min, max];
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/identity.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-function _default(x) {
-  return x;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/group.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = group;
-exports.groups = groups;
-exports.rollup = rollup;
-exports.rollups = rollups;
-
-var _identity = _interopRequireDefault(require("./identity.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function group(values, ...keys) {
-  return nest(values, _identity.default, _identity.default, keys);
-}
-
-function groups(values, ...keys) {
-  return nest(values, Array.from, _identity.default, keys);
-}
-
-function rollup(values, reduce, ...keys) {
-  return nest(values, _identity.default, reduce, keys);
-}
-
-function rollups(values, reduce, ...keys) {
-  return nest(values, Array.from, reduce, keys);
-}
-
-function nest(values, map, reduce, keys) {
-  return function regroup(values, i) {
-    if (i >= keys.length) return reduce(values);
-    const groups = new Map();
-    const keyof = keys[i++];
-    let index = -1;
-
-    for (const value of values) {
-      const key = keyof(value, ++index, values);
-      const group = groups.get(key);
-      if (group) group.push(value);else groups.set(key, [value]);
-    }
-
-    for (const [key, values] of groups) {
-      groups.set(key, regroup(values, i));
-    }
-
-    return map(groups);
-  }(values, 0);
-}
-},{"./identity.js":"../node_modules/d3-geo/node_modules/d3-array/src/identity.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/array.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.map = exports.slice = void 0;
-var array = Array.prototype;
-var slice = array.slice;
-exports.slice = slice;
-var map = array.map;
-exports.map = map;
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/constant.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-function _default(x) {
-  return function () {
-    return x;
-  };
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/range.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-function _default(start, stop, step) {
-  start = +start, stop = +stop, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
-  var i = -1,
-      n = Math.max(0, Math.ceil((stop - start) / step)) | 0,
-      range = new Array(n);
-
-  while (++i < n) {
-    range[i] = start + i * step;
-  }
-
-  return range;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/ticks.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-exports.tickIncrement = tickIncrement;
-exports.tickStep = tickStep;
-var e10 = Math.sqrt(50),
-    e5 = Math.sqrt(10),
-    e2 = Math.sqrt(2);
-
-function _default(start, stop, count) {
-  var reverse,
-      i = -1,
-      n,
-      ticks,
-      step;
-  stop = +stop, start = +start, count = +count;
-  if (start === stop && count > 0) return [start];
-  if (reverse = stop < start) n = start, start = stop, stop = n;
-  if ((step = tickIncrement(start, stop, count)) === 0 || !isFinite(step)) return [];
-
-  if (step > 0) {
-    start = Math.ceil(start / step);
-    stop = Math.floor(stop / step);
-    ticks = new Array(n = Math.ceil(stop - start + 1));
-
-    while (++i < n) ticks[i] = (start + i) * step;
-  } else {
-    start = Math.floor(start * step);
-    stop = Math.ceil(stop * step);
-    ticks = new Array(n = Math.ceil(start - stop + 1));
-
-    while (++i < n) ticks[i] = (start - i) / step;
-  }
-
-  if (reverse) ticks.reverse();
-  return ticks;
-}
-
-function tickIncrement(start, stop, count) {
-  var step = (stop - start) / Math.max(0, count),
-      power = Math.floor(Math.log(step) / Math.LN10),
-      error = step / Math.pow(10, power);
-  return power >= 0 ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
-}
-
-function tickStep(start, stop, count) {
-  var step0 = Math.abs(stop - start) / Math.max(0, count),
-      step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)),
-      error = step0 / step1;
-  if (error >= e10) step1 *= 10;else if (error >= e5) step1 *= 5;else if (error >= e2) step1 *= 2;
-  return stop < start ? -step1 : step1;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/threshold/sturges.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var _count = _interopRequireDefault(require("../count.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _default(values) {
-  return Math.ceil(Math.log((0, _count.default)(values)) / Math.LN2) + 1;
-}
-},{"../count.js":"../node_modules/d3-geo/node_modules/d3-array/src/count.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/bin.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var _array = require("./array.js");
-
-var _bisect = _interopRequireDefault(require("./bisect.js"));
-
-var _constant = _interopRequireDefault(require("./constant.js"));
-
-var _extent = _interopRequireDefault(require("./extent.js"));
-
-var _identity = _interopRequireDefault(require("./identity.js"));
-
-var _range = _interopRequireDefault(require("./range.js"));
-
-var _ticks = require("./ticks.js");
-
-var _sturges = _interopRequireDefault(require("./threshold/sturges.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _default() {
-  var value = _identity.default,
-      domain = _extent.default,
-      threshold = _sturges.default;
-
-  function histogram(data) {
-    if (!Array.isArray(data)) data = Array.from(data);
-    var i,
-        n = data.length,
-        x,
-        values = new Array(n);
-
-    for (i = 0; i < n; ++i) {
-      values[i] = value(data[i], i, data);
-    }
-
-    var xz = domain(values),
-        x0 = xz[0],
-        x1 = xz[1],
-        tz = threshold(values, x0, x1); // Convert number of thresholds into uniform thresholds.
-
-    if (!Array.isArray(tz)) {
-      tz = (0, _ticks.tickStep)(x0, x1, tz);
-      tz = (0, _range.default)(Math.ceil(x0 / tz) * tz, x1, tz); // exclusive
-    } // Remove any thresholds outside the domain.
-
-
-    var m = tz.length;
-
-    while (tz[0] <= x0) tz.shift(), --m;
-
-    while (tz[m - 1] > x1) tz.pop(), --m;
-
-    var bins = new Array(m + 1),
-        bin; // Initialize bins.
-
-    for (i = 0; i <= m; ++i) {
-      bin = bins[i] = [];
-      bin.x0 = i > 0 ? tz[i - 1] : x0;
-      bin.x1 = i < m ? tz[i] : x1;
-    } // Assign data to bins by value, ignoring any outside the domain.
-
-
-    for (i = 0; i < n; ++i) {
-      x = values[i];
-
-      if (x0 <= x && x <= x1) {
-        bins[(0, _bisect.default)(tz, x, 0, m)].push(data[i]);
-      }
-    }
-
-    return bins;
-  }
-
-  histogram.value = function (_) {
-    return arguments.length ? (value = typeof _ === "function" ? _ : (0, _constant.default)(_), histogram) : value;
-  };
-
-  histogram.domain = function (_) {
-    return arguments.length ? (domain = typeof _ === "function" ? _ : (0, _constant.default)([_[0], _[1]]), histogram) : domain;
-  };
-
-  histogram.thresholds = function (_) {
-    return arguments.length ? (threshold = typeof _ === "function" ? _ : Array.isArray(_) ? (0, _constant.default)(_array.slice.call(_)) : (0, _constant.default)(_), histogram) : threshold;
-  };
-
-  return histogram;
-}
-},{"./array.js":"../node_modules/d3-geo/node_modules/d3-array/src/array.js","./bisect.js":"../node_modules/d3-geo/node_modules/d3-array/src/bisect.js","./constant.js":"../node_modules/d3-geo/node_modules/d3-array/src/constant.js","./extent.js":"../node_modules/d3-geo/node_modules/d3-array/src/extent.js","./identity.js":"../node_modules/d3-geo/node_modules/d3-array/src/identity.js","./range.js":"../node_modules/d3-geo/node_modules/d3-array/src/range.js","./ticks.js":"../node_modules/d3-geo/node_modules/d3-array/src/ticks.js","./threshold/sturges.js":"../node_modules/d3-geo/node_modules/d3-array/src/threshold/sturges.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/max.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = max;
-
-function max(values, valueof) {
-  let max;
-
-  if (valueof === undefined) {
-    for (const value of values) {
-      if (value != null && (max < value || max === undefined && value >= value)) {
-        max = value;
-      }
-    }
-  } else {
-    let index = -1;
-
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null && (max < value || max === undefined && value >= value)) {
-        max = value;
-      }
-    }
-  }
-
-  return max;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/min.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = min;
-
-function min(values, valueof) {
-  let min;
-
-  if (valueof === undefined) {
-    for (const value of values) {
-      if (value != null && (min > value || min === undefined && value >= value)) {
-        min = value;
-      }
-    }
-  } else {
-    let index = -1;
-
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null && (min > value || min === undefined && value >= value)) {
-        min = value;
-      }
-    }
-  }
-
-  return min;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/quickselect.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = quickselect;
-
-var _ascending = _interopRequireDefault(require("./ascending.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// Based on https://github.com/mourner/quickselect
-// ISC license, Copyright 2018 Vladimir Agafonkin.
-function quickselect(array, k, left = 0, right = array.length - 1, compare = _ascending.default) {
-  while (right > left) {
-    if (right - left > 600) {
-      const n = right - left + 1;
-      const m = k - left + 1;
-      const z = Math.log(n);
-      const s = 0.5 * Math.exp(2 * z / 3);
-      const sd = 0.5 * Math.sqrt(z * s * (n - s) / n) * (m - n / 2 < 0 ? -1 : 1);
-      const newLeft = Math.max(left, Math.floor(k - m * s / n + sd));
-      const newRight = Math.min(right, Math.floor(k + (n - m) * s / n + sd));
-      quickselect(array, k, newLeft, newRight, compare);
-    }
-
-    const t = array[k];
-    let i = left;
-    let j = right;
-    swap(array, left, k);
-    if (compare(array[right], t) > 0) swap(array, left, right);
-
-    while (i < j) {
-      swap(array, i, j), ++i, --j;
-
-      while (compare(array[i], t) < 0) ++i;
-
-      while (compare(array[j], t) > 0) --j;
-    }
-
-    if (compare(array[left], t) === 0) swap(array, left, j);else ++j, swap(array, j, right);
-    if (j <= k) left = j + 1;
-    if (k <= j) right = j - 1;
-  }
-
-  return array;
-}
-
-function swap(array, i, j) {
-  const t = array[i];
-  array[i] = array[j];
-  array[j] = t;
-}
-},{"./ascending.js":"../node_modules/d3-geo/node_modules/d3-array/src/ascending.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/number.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-exports.numbers = numbers;
-
-function _default(x) {
-  return x === null ? NaN : +x;
-}
-
-function* numbers(values, valueof) {
-  if (valueof === undefined) {
-    for (let value of values) {
-      if (value != null && (value = +value) >= value) {
-        yield value;
-      }
-    }
-  } else {
-    let index = -1;
-
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null && (value = +value) >= value) {
-        yield value;
-      }
-    }
-  }
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/quantile.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = quantile;
-exports.quantileSorted = quantileSorted;
-
-var _max = _interopRequireDefault(require("./max.js"));
-
-var _min = _interopRequireDefault(require("./min.js"));
-
-var _quickselect = _interopRequireDefault(require("./quickselect.js"));
-
-var _number = _interopRequireWildcard(require("./number.js"));
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function quantile(values, p, valueof) {
-  values = Float64Array.from((0, _number.numbers)(values, valueof));
-  if (!(n = values.length)) return;
-  if ((p = +p) <= 0 || n < 2) return (0, _min.default)(values);
-  if (p >= 1) return (0, _max.default)(values);
-  var n,
-      i = (n - 1) * p,
-      i0 = Math.floor(i),
-      value0 = (0, _max.default)((0, _quickselect.default)(values, i0).subarray(0, i0 + 1)),
-      value1 = (0, _min.default)(values.subarray(i0 + 1));
-  return value0 + (value1 - value0) * (i - i0);
-}
-
-function quantileSorted(values, p, valueof = _number.default) {
-  if (!(n = values.length)) return;
-  if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
-  if (p >= 1) return +valueof(values[n - 1], n - 1, values);
-  var n,
-      i = (n - 1) * p,
-      i0 = Math.floor(i),
-      value0 = +valueof(values[i0], i0, values),
-      value1 = +valueof(values[i0 + 1], i0 + 1, values);
-  return value0 + (value1 - value0) * (i - i0);
-}
-},{"./max.js":"../node_modules/d3-geo/node_modules/d3-array/src/max.js","./min.js":"../node_modules/d3-geo/node_modules/d3-array/src/min.js","./quickselect.js":"../node_modules/d3-geo/node_modules/d3-array/src/quickselect.js","./number.js":"../node_modules/d3-geo/node_modules/d3-array/src/number.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/threshold/freedmanDiaconis.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var _count = _interopRequireDefault(require("../count.js"));
-
-var _quantile = _interopRequireDefault(require("../quantile.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _default(values, min, max) {
-  return Math.ceil((max - min) / (2 * ((0, _quantile.default)(values, 0.75) - (0, _quantile.default)(values, 0.25)) * Math.pow((0, _count.default)(values), -1 / 3)));
-}
-},{"../count.js":"../node_modules/d3-geo/node_modules/d3-array/src/count.js","../quantile.js":"../node_modules/d3-geo/node_modules/d3-array/src/quantile.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/threshold/scott.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var _count = _interopRequireDefault(require("../count.js"));
-
-var _deviation = _interopRequireDefault(require("../deviation.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _default(values, min, max) {
-  return Math.ceil((max - min) / (3.5 * (0, _deviation.default)(values) * Math.pow((0, _count.default)(values), -1 / 3)));
-}
-},{"../count.js":"../node_modules/d3-geo/node_modules/d3-array/src/count.js","../deviation.js":"../node_modules/d3-geo/node_modules/d3-array/src/deviation.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/maxIndex.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = maxIndex;
-
-function maxIndex(values, valueof) {
-  let max;
-  let maxIndex = -1;
-  let index = -1;
-
-  if (valueof === undefined) {
-    for (const value of values) {
-      ++index;
-
-      if (value != null && (max < value || max === undefined && value >= value)) {
-        max = value, maxIndex = index;
-      }
-    }
-  } else {
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null && (max < value || max === undefined && value >= value)) {
-        max = value, maxIndex = index;
-      }
-    }
-  }
-
-  return maxIndex;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/mean.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = mean;
-
-function mean(values, valueof) {
-  let count = 0;
-  let sum = 0;
-
-  if (valueof === undefined) {
-    for (let value of values) {
-      if (value != null && (value = +value) >= value) {
-        ++count, sum += value;
-      }
-    }
-  } else {
-    let index = -1;
-
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null && (value = +value) >= value) {
-        ++count, sum += value;
-      }
-    }
-  }
-
-  if (count) return sum / count;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/median.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var _quantile = _interopRequireDefault(require("./quantile.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _default(values, valueof) {
-  return (0, _quantile.default)(values, 0.5, valueof);
-}
-},{"./quantile.js":"../node_modules/d3-geo/node_modules/d3-array/src/quantile.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/merge.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = merge;
-
-function* flatten(arrays) {
-  for (const array of arrays) {
-    yield* array;
-  }
-}
-
-function merge(arrays) {
-  return Array.from(flatten(arrays));
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/minIndex.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = minIndex;
-
-function minIndex(values, valueof) {
-  let min;
-  let minIndex = -1;
-  let index = -1;
-
-  if (valueof === undefined) {
-    for (const value of values) {
-      ++index;
-
-      if (value != null && (min > value || min === undefined && value >= value)) {
-        min = value, minIndex = index;
-      }
-    }
-  } else {
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null && (min > value || min === undefined && value >= value)) {
-        min = value, minIndex = index;
-      }
-    }
-  }
-
-  return minIndex;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/pairs.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = pairs;
-exports.pair = pair;
-
-function pairs(values, pairof = pair) {
-  const pairs = [];
-  let previous;
-  let first = false;
-
-  for (const value of values) {
-    if (first) pairs.push(pairof(previous, value));
-    previous = value;
-    first = true;
-  }
-
-  return pairs;
-}
-
-function pair(a, b) {
-  return [a, b];
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/permute.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-function _default(source, keys) {
-  return Array.from(keys, key => source[key]);
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/least.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = least;
-
-var _ascending = _interopRequireDefault(require("./ascending.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function least(values, compare = _ascending.default) {
-  let min;
-  let defined = false;
-
-  if (compare.length === 1) {
-    let minValue;
-
-    for (const element of values) {
-      const value = compare(element);
-
-      if (defined ? (0, _ascending.default)(value, minValue) < 0 : (0, _ascending.default)(value, value) === 0) {
-        min = element;
-        minValue = value;
-        defined = true;
-      }
-    }
-  } else {
-    for (const value of values) {
-      if (defined ? compare(value, min) < 0 : compare(value, value) === 0) {
-        min = value;
-        defined = true;
-      }
-    }
-  }
-
-  return min;
-}
-},{"./ascending.js":"../node_modules/d3-geo/node_modules/d3-array/src/ascending.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/leastIndex.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = leastIndex;
-
-var _ascending = _interopRequireDefault(require("./ascending.js"));
-
-var _minIndex = _interopRequireDefault(require("./minIndex.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function leastIndex(values, compare = _ascending.default) {
-  if (compare.length === 1) return (0, _minIndex.default)(values, compare);
-  let minValue;
-  let min = -1;
-  let index = -1;
-
-  for (const value of values) {
-    ++index;
-
-    if (min < 0 ? compare(value, value) === 0 : compare(value, minValue) < 0) {
-      minValue = value;
-      min = index;
-    }
-  }
-
-  return min;
-}
-},{"./ascending.js":"../node_modules/d3-geo/node_modules/d3-array/src/ascending.js","./minIndex.js":"../node_modules/d3-geo/node_modules/d3-array/src/minIndex.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/greatest.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = greatest;
-
-var _ascending = _interopRequireDefault(require("./ascending.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function greatest(values, compare = _ascending.default) {
-  let max;
-  let defined = false;
-
-  if (compare.length === 1) {
-    let maxValue;
-
-    for (const element of values) {
-      const value = compare(element);
-
-      if (defined ? (0, _ascending.default)(value, maxValue) > 0 : (0, _ascending.default)(value, value) === 0) {
-        max = element;
-        maxValue = value;
-        defined = true;
-      }
-    }
-  } else {
-    for (const value of values) {
-      if (defined ? compare(value, max) > 0 : compare(value, value) === 0) {
-        max = value;
-        defined = true;
-      }
-    }
-  }
-
-  return max;
-}
-},{"./ascending.js":"../node_modules/d3-geo/node_modules/d3-array/src/ascending.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/greatestIndex.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = greatestIndex;
-
-var _ascending = _interopRequireDefault(require("./ascending.js"));
-
-var _maxIndex = _interopRequireDefault(require("./maxIndex.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function greatestIndex(values, compare = _ascending.default) {
-  if (compare.length === 1) return (0, _maxIndex.default)(values, compare);
-  let maxValue;
-  let max = -1;
-  let index = -1;
-
-  for (const value of values) {
-    ++index;
-
-    if (max < 0 ? compare(value, value) === 0 : compare(value, maxValue) > 0) {
-      maxValue = value;
-      max = index;
-    }
-  }
-
-  return max;
-}
-},{"./ascending.js":"../node_modules/d3-geo/node_modules/d3-array/src/ascending.js","./maxIndex.js":"../node_modules/d3-geo/node_modules/d3-array/src/maxIndex.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/scan.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = scan;
-
-var _leastIndex = _interopRequireDefault(require("./leastIndex.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function scan(values, compare) {
-  const index = (0, _leastIndex.default)(values, compare);
-  return index < 0 ? undefined : index;
-}
-},{"./leastIndex.js":"../node_modules/d3-geo/node_modules/d3-array/src/leastIndex.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/shuffle.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = shuffle;
-
-function shuffle(array, i0 = 0, i1 = array.length) {
-  var m = i1 - (i0 = +i0),
-      t,
-      i;
-
-  while (m) {
-    i = Math.random() * m-- | 0;
-    t = array[m + i0];
-    array[m + i0] = array[i + i0];
-    array[i + i0] = t;
-  }
-
-  return array;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/sum.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = sum;
-
-function sum(values, valueof) {
-  let sum = 0;
-
-  if (valueof === undefined) {
-    for (let value of values) {
-      if (value = +value) {
-        sum += value;
-      }
-    }
-  } else {
-    let index = -1;
-
-    for (let value of values) {
-      if (value = +valueof(value, ++index, values)) {
-        sum += value;
-      }
-    }
-  }
-
-  return sum;
-}
-},{}],"../node_modules/d3-geo/node_modules/d3-array/src/transpose.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var _min = _interopRequireDefault(require("./min.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _default(matrix) {
-  if (!(n = matrix.length)) return [];
-
-  for (var i = -1, m = (0, _min.default)(matrix, length), transpose = new Array(m); ++i < m;) {
-    for (var j = -1, n, row = transpose[i] = new Array(n); ++j < n;) {
-      row[j] = matrix[j][i];
-    }
-  }
-
-  return transpose;
-}
-
-function length(d) {
-  return d.length;
-}
-},{"./min.js":"../node_modules/d3-geo/node_modules/d3-array/src/min.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/zip.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var _transpose = _interopRequireDefault(require("./transpose.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _default() {
-  return (0, _transpose.default)(arguments);
-}
-},{"./transpose.js":"../node_modules/d3-geo/node_modules/d3-array/src/transpose.js"}],"../node_modules/d3-geo/node_modules/d3-array/src/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "bisect", {
-  enumerable: true,
-  get: function () {
-    return _bisect.default;
-  }
-});
-Object.defineProperty(exports, "bisectRight", {
-  enumerable: true,
-  get: function () {
-    return _bisect.bisectRight;
-  }
-});
-Object.defineProperty(exports, "bisectLeft", {
-  enumerable: true,
-  get: function () {
-    return _bisect.bisectLeft;
-  }
-});
-Object.defineProperty(exports, "ascending", {
-  enumerable: true,
-  get: function () {
-    return _ascending.default;
-  }
-});
-Object.defineProperty(exports, "bisector", {
-  enumerable: true,
-  get: function () {
-    return _bisector.default;
-  }
-});
-Object.defineProperty(exports, "count", {
-  enumerable: true,
-  get: function () {
-    return _count.default;
-  }
-});
-Object.defineProperty(exports, "cross", {
-  enumerable: true,
-  get: function () {
-    return _cross.default;
-  }
-});
-Object.defineProperty(exports, "cumsum", {
-  enumerable: true,
-  get: function () {
-    return _cumsum.default;
-  }
-});
-Object.defineProperty(exports, "descending", {
-  enumerable: true,
-  get: function () {
-    return _descending.default;
-  }
-});
-Object.defineProperty(exports, "deviation", {
-  enumerable: true,
-  get: function () {
-    return _deviation.default;
-  }
-});
-Object.defineProperty(exports, "extent", {
-  enumerable: true,
-  get: function () {
-    return _extent.default;
-  }
-});
-Object.defineProperty(exports, "group", {
-  enumerable: true,
-  get: function () {
-    return _group.default;
-  }
-});
-Object.defineProperty(exports, "groups", {
-  enumerable: true,
-  get: function () {
-    return _group.groups;
-  }
-});
-Object.defineProperty(exports, "rollup", {
-  enumerable: true,
-  get: function () {
-    return _group.rollup;
-  }
-});
-Object.defineProperty(exports, "rollups", {
-  enumerable: true,
-  get: function () {
-    return _group.rollups;
-  }
-});
-Object.defineProperty(exports, "bin", {
-  enumerable: true,
-  get: function () {
-    return _bin.default;
-  }
-});
-Object.defineProperty(exports, "histogram", {
-  enumerable: true,
-  get: function () {
-    return _bin.default;
-  }
-});
-Object.defineProperty(exports, "thresholdFreedmanDiaconis", {
-  enumerable: true,
-  get: function () {
-    return _freedmanDiaconis.default;
-  }
-});
-Object.defineProperty(exports, "thresholdScott", {
-  enumerable: true,
-  get: function () {
-    return _scott.default;
-  }
-});
-Object.defineProperty(exports, "thresholdSturges", {
-  enumerable: true,
-  get: function () {
-    return _sturges.default;
-  }
-});
-Object.defineProperty(exports, "max", {
-  enumerable: true,
-  get: function () {
-    return _max.default;
-  }
-});
-Object.defineProperty(exports, "maxIndex", {
-  enumerable: true,
-  get: function () {
-    return _maxIndex.default;
-  }
-});
-Object.defineProperty(exports, "mean", {
-  enumerable: true,
-  get: function () {
-    return _mean.default;
-  }
-});
-Object.defineProperty(exports, "median", {
-  enumerable: true,
-  get: function () {
-    return _median.default;
-  }
-});
-Object.defineProperty(exports, "merge", {
-  enumerable: true,
-  get: function () {
-    return _merge.default;
-  }
-});
-Object.defineProperty(exports, "min", {
-  enumerable: true,
-  get: function () {
-    return _min.default;
-  }
-});
-Object.defineProperty(exports, "minIndex", {
-  enumerable: true,
-  get: function () {
-    return _minIndex.default;
-  }
-});
-Object.defineProperty(exports, "pairs", {
-  enumerable: true,
-  get: function () {
-    return _pairs.default;
-  }
-});
-Object.defineProperty(exports, "permute", {
-  enumerable: true,
-  get: function () {
-    return _permute.default;
-  }
-});
-Object.defineProperty(exports, "quantile", {
-  enumerable: true,
-  get: function () {
-    return _quantile.default;
-  }
-});
-Object.defineProperty(exports, "quantileSorted", {
-  enumerable: true,
-  get: function () {
-    return _quantile.quantileSorted;
-  }
-});
-Object.defineProperty(exports, "quickselect", {
-  enumerable: true,
-  get: function () {
-    return _quickselect.default;
-  }
-});
-Object.defineProperty(exports, "range", {
-  enumerable: true,
-  get: function () {
-    return _range.default;
-  }
-});
-Object.defineProperty(exports, "least", {
-  enumerable: true,
-  get: function () {
-    return _least.default;
-  }
-});
-Object.defineProperty(exports, "leastIndex", {
-  enumerable: true,
-  get: function () {
-    return _leastIndex.default;
-  }
-});
-Object.defineProperty(exports, "greatest", {
-  enumerable: true,
-  get: function () {
-    return _greatest.default;
-  }
-});
-Object.defineProperty(exports, "greatestIndex", {
-  enumerable: true,
-  get: function () {
-    return _greatestIndex.default;
-  }
-});
-Object.defineProperty(exports, "scan", {
-  enumerable: true,
-  get: function () {
-    return _scan.default;
-  }
-});
-Object.defineProperty(exports, "shuffle", {
-  enumerable: true,
-  get: function () {
-    return _shuffle.default;
-  }
-});
-Object.defineProperty(exports, "sum", {
-  enumerable: true,
-  get: function () {
-    return _sum.default;
-  }
-});
-Object.defineProperty(exports, "ticks", {
-  enumerable: true,
-  get: function () {
-    return _ticks.default;
-  }
-});
-Object.defineProperty(exports, "tickIncrement", {
-  enumerable: true,
-  get: function () {
-    return _ticks.tickIncrement;
-  }
-});
-Object.defineProperty(exports, "tickStep", {
-  enumerable: true,
-  get: function () {
-    return _ticks.tickStep;
-  }
-});
-Object.defineProperty(exports, "transpose", {
-  enumerable: true,
-  get: function () {
-    return _transpose.default;
-  }
-});
-Object.defineProperty(exports, "variance", {
-  enumerable: true,
-  get: function () {
-    return _variance.default;
-  }
-});
-Object.defineProperty(exports, "zip", {
-  enumerable: true,
-  get: function () {
-    return _zip.default;
-  }
-});
-
-var _bisect = _interopRequireWildcard(require("./bisect.js"));
-
-var _ascending = _interopRequireDefault(require("./ascending.js"));
-
-var _bisector = _interopRequireDefault(require("./bisector.js"));
-
-var _count = _interopRequireDefault(require("./count.js"));
-
-var _cross = _interopRequireDefault(require("./cross.js"));
-
-var _cumsum = _interopRequireDefault(require("./cumsum.js"));
-
-var _descending = _interopRequireDefault(require("./descending.js"));
-
-var _deviation = _interopRequireDefault(require("./deviation.js"));
-
-var _extent = _interopRequireDefault(require("./extent.js"));
-
-var _group = _interopRequireWildcard(require("./group.js"));
-
-var _bin = _interopRequireDefault(require("./bin.js"));
-
-var _freedmanDiaconis = _interopRequireDefault(require("./threshold/freedmanDiaconis.js"));
-
-var _scott = _interopRequireDefault(require("./threshold/scott.js"));
-
-var _sturges = _interopRequireDefault(require("./threshold/sturges.js"));
-
-var _max = _interopRequireDefault(require("./max.js"));
-
-var _maxIndex = _interopRequireDefault(require("./maxIndex.js"));
-
-var _mean = _interopRequireDefault(require("./mean.js"));
-
-var _median = _interopRequireDefault(require("./median.js"));
-
-var _merge = _interopRequireDefault(require("./merge.js"));
-
-var _min = _interopRequireDefault(require("./min.js"));
-
-var _minIndex = _interopRequireDefault(require("./minIndex.js"));
-
-var _pairs = _interopRequireDefault(require("./pairs.js"));
-
-var _permute = _interopRequireDefault(require("./permute.js"));
-
-var _quantile = _interopRequireWildcard(require("./quantile.js"));
-
-var _quickselect = _interopRequireDefault(require("./quickselect.js"));
-
-var _range = _interopRequireDefault(require("./range.js"));
-
-var _least = _interopRequireDefault(require("./least.js"));
-
-var _leastIndex = _interopRequireDefault(require("./leastIndex.js"));
-
-var _greatest = _interopRequireDefault(require("./greatest.js"));
-
-var _greatestIndex = _interopRequireDefault(require("./greatestIndex.js"));
-
-var _scan = _interopRequireDefault(require("./scan.js"));
-
-var _shuffle = _interopRequireDefault(require("./shuffle.js"));
-
-var _sum = _interopRequireDefault(require("./sum.js"));
-
-var _ticks = _interopRequireWildcard(require("./ticks.js"));
-
-var _transpose = _interopRequireDefault(require("./transpose.js"));
-
-var _variance = _interopRequireDefault(require("./variance.js"));
-
-var _zip = _interopRequireDefault(require("./zip.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-},{"./bisect.js":"../node_modules/d3-geo/node_modules/d3-array/src/bisect.js","./ascending.js":"../node_modules/d3-geo/node_modules/d3-array/src/ascending.js","./bisector.js":"../node_modules/d3-geo/node_modules/d3-array/src/bisector.js","./count.js":"../node_modules/d3-geo/node_modules/d3-array/src/count.js","./cross.js":"../node_modules/d3-geo/node_modules/d3-array/src/cross.js","./cumsum.js":"../node_modules/d3-geo/node_modules/d3-array/src/cumsum.js","./descending.js":"../node_modules/d3-geo/node_modules/d3-array/src/descending.js","./deviation.js":"../node_modules/d3-geo/node_modules/d3-array/src/deviation.js","./extent.js":"../node_modules/d3-geo/node_modules/d3-array/src/extent.js","./group.js":"../node_modules/d3-geo/node_modules/d3-array/src/group.js","./bin.js":"../node_modules/d3-geo/node_modules/d3-array/src/bin.js","./threshold/freedmanDiaconis.js":"../node_modules/d3-geo/node_modules/d3-array/src/threshold/freedmanDiaconis.js","./threshold/scott.js":"../node_modules/d3-geo/node_modules/d3-array/src/threshold/scott.js","./threshold/sturges.js":"../node_modules/d3-geo/node_modules/d3-array/src/threshold/sturges.js","./max.js":"../node_modules/d3-geo/node_modules/d3-array/src/max.js","./maxIndex.js":"../node_modules/d3-geo/node_modules/d3-array/src/maxIndex.js","./mean.js":"../node_modules/d3-geo/node_modules/d3-array/src/mean.js","./median.js":"../node_modules/d3-geo/node_modules/d3-array/src/median.js","./merge.js":"../node_modules/d3-geo/node_modules/d3-array/src/merge.js","./min.js":"../node_modules/d3-geo/node_modules/d3-array/src/min.js","./minIndex.js":"../node_modules/d3-geo/node_modules/d3-array/src/minIndex.js","./pairs.js":"../node_modules/d3-geo/node_modules/d3-array/src/pairs.js","./permute.js":"../node_modules/d3-geo/node_modules/d3-array/src/permute.js","./quantile.js":"../node_modules/d3-geo/node_modules/d3-array/src/quantile.js","./quickselect.js":"../node_modules/d3-geo/node_modules/d3-array/src/quickselect.js","./range.js":"../node_modules/d3-geo/node_modules/d3-array/src/range.js","./least.js":"../node_modules/d3-geo/node_modules/d3-array/src/least.js","./leastIndex.js":"../node_modules/d3-geo/node_modules/d3-array/src/leastIndex.js","./greatest.js":"../node_modules/d3-geo/node_modules/d3-array/src/greatest.js","./greatestIndex.js":"../node_modules/d3-geo/node_modules/d3-array/src/greatestIndex.js","./scan.js":"../node_modules/d3-geo/node_modules/d3-array/src/scan.js","./shuffle.js":"../node_modules/d3-geo/node_modules/d3-array/src/shuffle.js","./sum.js":"../node_modules/d3-geo/node_modules/d3-array/src/sum.js","./ticks.js":"../node_modules/d3-geo/node_modules/d3-array/src/ticks.js","./transpose.js":"../node_modules/d3-geo/node_modules/d3-array/src/transpose.js","./variance.js":"../node_modules/d3-geo/node_modules/d3-array/src/variance.js","./zip.js":"../node_modules/d3-geo/node_modules/d3-array/src/zip.js"}],"../node_modules/d3-geo/src/clip/index.js":[function(require,module,exports) {
+},{"./adder.js":"../node_modules/d3-geo/src/adder.js","./cartesian.js":"../node_modules/d3-geo/src/cartesian.js","./math.js":"../node_modules/d3-geo/src/math.js"}],"../node_modules/d3-geo/src/clip/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33610,7 +32078,7 @@ function validSegment(segment) {
 function compareIntersection(a, b) {
   return ((a = a.x)[0] < 0 ? a[1] - _math.halfPi - _math.epsilon : _math.halfPi - a[1]) - ((b = b.x)[0] < 0 ? b[1] - _math.halfPi - _math.epsilon : _math.halfPi - b[1]);
 }
-},{"./buffer.js":"../node_modules/d3-geo/src/clip/buffer.js","./rejoin.js":"../node_modules/d3-geo/src/clip/rejoin.js","../math.js":"../node_modules/d3-geo/src/math.js","../polygonContains.js":"../node_modules/d3-geo/src/polygonContains.js","d3-array":"../node_modules/d3-geo/node_modules/d3-array/src/index.js"}],"../node_modules/d3-geo/src/clip/antimeridian.js":[function(require,module,exports) {
+},{"./buffer.js":"../node_modules/d3-geo/src/clip/buffer.js","./rejoin.js":"../node_modules/d3-geo/src/clip/rejoin.js","../math.js":"../node_modules/d3-geo/src/math.js","../polygonContains.js":"../node_modules/d3-geo/src/polygonContains.js","d3-array":"../node_modules/d3-array/src/index.js"}],"../node_modules/d3-geo/src/clip/antimeridian.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34168,7 +32636,7 @@ function clipRectangle(x0, y0, x1, y1) {
     return clipStream;
   };
 }
-},{"../math.js":"../node_modules/d3-geo/src/math.js","./buffer.js":"../node_modules/d3-geo/src/clip/buffer.js","./line.js":"../node_modules/d3-geo/src/clip/line.js","./rejoin.js":"../node_modules/d3-geo/src/clip/rejoin.js","d3-array":"../node_modules/d3-geo/node_modules/d3-array/src/index.js"}],"../node_modules/d3-geo/src/clip/extent.js":[function(require,module,exports) {
+},{"../math.js":"../node_modules/d3-geo/src/math.js","./buffer.js":"../node_modules/d3-geo/src/clip/buffer.js","./line.js":"../node_modules/d3-geo/src/clip/line.js","./rejoin.js":"../node_modules/d3-geo/src/clip/rejoin.js","d3-array":"../node_modules/d3-array/src/index.js"}],"../node_modules/d3-geo/src/clip/extent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34544,7 +33012,7 @@ function graticule() {
 function graticule10() {
   return graticule()();
 }
-},{"d3-array":"../node_modules/d3-geo/node_modules/d3-array/src/index.js","./math.js":"../node_modules/d3-geo/src/math.js"}],"../node_modules/d3-geo/src/interpolate.js":[function(require,module,exports) {
+},{"d3-array":"../node_modules/d3-array/src/index.js","./math.js":"../node_modules/d3-geo/src/math.js"}],"../node_modules/d3-geo/src/interpolate.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49394,21 +47862,21 @@ var script$1 = {
     const height = (0, _compositionApi.ref)(0);
 
     const setSize = () => {
-      height.value = parent.value.$el.offsetHeight;
-      width.value = parent.value.$el.offsetWidth;
+      height.value = svg.value.getBoundingClientRect().height;
+      width.value = svg.value.getBoundingClientRect().width;
     }; // @ts-ignore: Unreachable code error
 
 
     const resizeObserver = window.ResizeObserver && new ResizeObserver(setSize);
-    (0, _compositionApi.watch)(parent, () => {
-      if (!parent.value) return;
+    (0, _compositionApi.watch)([parent, svg], () => {
+      if (!parent.value || !svg.value) return;
       setSize();
       resizeObserver && resizeObserver.observe(parent.value.$el);
     }); // @ts-ignore: Unreachable code error
 
     if (!window.ResizeObserver) {
       setTimeout(setSize, 10);
-      window.addEventListener('resize', setSize, true);
+      window.addEventListener("resize", setSize, true);
     }
 
     return {
@@ -49434,6 +47902,11 @@ var __vue_render__$1 = function () {
 
   return _c("map-provider", {
     ref: "parent",
+    staticStyle: {
+      position: "relative",
+      height: "100%",
+      width: "100%"
+    },
     attrs: {
       width: _vm.width,
       height: _vm.height,
@@ -49442,20 +47915,36 @@ var __vue_render__$1 = function () {
       svg: _vm.svg,
       canvas: _vm.canvas
     }
+  }, [_c("div", {
+    staticStyle: {
+      position: "absolute",
+      top: "0",
+      right: "0",
+      left: "0",
+      bottom: "0"
+    }
   }, [!_vm.canvas ? _c("svg", _vm._b({
     ref: "svg",
     staticClass: "rsm-svg",
+    staticStyle: {
+      height: "100%",
+      width: "100%"
+    },
     attrs: {
       viewBox: "0 0 " + _vm.width + " " + _vm.height,
       preserveAspectRatio: "xMidYMid meet"
     }
   }, "svg", _vm.$attrs, false), [_vm._t("default")], 2) : _c("canvas", {
     ref: "svg",
+    staticStyle: {
+      height: "100%",
+      width: "100%"
+    },
     attrs: {
       width: _vm.width,
       height: _vm.height
     }
-  }, [_vm._t("default")], 2)]);
+  }, [_vm._t("default")], 2)])]);
 };
 
 var __vue_staticRenderFns__$1 = [];
@@ -49686,13 +48175,16 @@ function isString(geo) {
   return typeof geo === "string";
 }
 
-var script$2 = {
+var MapGeographies = {
   props: {
     geography: [String, Object, Array],
     parseGeographies: Function
   },
 
-  setup(props) {
+  setup(props, {
+    slots,
+    scopedSlots
+  }) {
     const context = (0, _compositionApi.inject)(ContextSymbol);
     const features = (0, _compositionApi.ref)(null);
     const geography = (0, _compositionApi.computed)(() => props.geography);
@@ -49713,58 +48205,23 @@ var script$2 = {
     };
 
     (0, _compositionApi.watch)(geography, setup);
-    return {
-      geographies
-    };
+
+    if (context && !context.canvas) {
+      return () => (0, _compositionApi.createElement)('g', {
+        class: 'vue-map-geographies'
+      }, [slots.default({
+        geographies: geographies.value
+      })]);
+    }
+
+    return () => (0, _compositionApi.createElement)('g', slots.default({
+      geographies: geographies.value
+    }));
   }
 
 };
-/* script */
-
-const __vue_script__$2 = script$2;
-/* template */
-
-var __vue_render__$2 = function () {
-  var _vm = this;
-
-  var _h = _vm.$createElement;
-
-  var _c = _vm._self._c || _h;
-
-  return _c("g", {
-    staticClass: "rsm-geographies"
-  }, [_vm._t("default", null, null, {
-    geographies: _vm.geographies
-  })], 2);
-};
-
-var __vue_staticRenderFns__$2 = [];
-__vue_render__$2._withStripped = true;
-/* style */
-
-const __vue_inject_styles__$2 = undefined;
-/* scoped */
-
-const __vue_scope_id__$2 = undefined;
-/* module identifier */
-
-const __vue_module_identifier__$2 = undefined;
-/* functional template */
-
-const __vue_is_functional_template__$2 = false;
-/* style inject */
-
-/* style inject SSR */
-
-/* style inject shadow dom */
-
-var MapGeographies = normalizeComponent({
-  render: __vue_render__$2,
-  staticRenderFns: __vue_staticRenderFns__$2
-}, __vue_inject_styles__$2, __vue_script__$2, __vue_scope_id__$2, __vue_is_functional_template__$2, __vue_module_identifier__$2, false, undefined, undefined, undefined); //
-
 exports.MapGeographies = MapGeographies;
-var script$3 = {
+var MapGeography = {
   props: {
     geography: {
       type: Object,
@@ -49773,7 +48230,8 @@ var script$3 = {
   },
 
   setup(props, {
-    attrs
+    attrs,
+    slots
   }) {
     const context = (0, _compositionApi.inject)(ContextSymbol);
     const update = (0, _compositionApi.computed)(() => context && context.update);
@@ -49789,59 +48247,22 @@ var script$3 = {
       ctx.fill(path);
       ctx.stroke(path);
     });
-    return {
-      canvas: context.canvas
-    };
+
+    if (context && !context.canvas) {
+      return () => (0, _compositionApi.createElement)('path', {
+        class: 'vue-map-geography',
+        attrs: {
+          role: 'geography',
+          d: props.geography.svgPath,
+          ...attrs
+        }
+      });
+    }
   }
 
 };
-/* script */
-
-const __vue_script__$3 = script$3;
-/* template */
-
-var __vue_render__$3 = function () {
-  var _vm = this;
-
-  var _h = _vm.$createElement;
-
-  var _c = _vm._self._c || _h;
-
-  return !_vm.canvas ? _c("path", _vm._b({
-    staticClass: "rsm-geography",
-    attrs: {
-      role: "geography",
-      d: _vm.geography.svgPath
-    }
-  }, "path", _vm.$attrs, false), [_vm._t("default")], 2) : _vm._e();
-};
-
-var __vue_staticRenderFns__$3 = [];
-__vue_render__$3._withStripped = true;
-/* style */
-
-const __vue_inject_styles__$3 = undefined;
-/* scoped */
-
-const __vue_scope_id__$3 = undefined;
-/* module identifier */
-
-const __vue_module_identifier__$3 = undefined;
-/* functional template */
-
-const __vue_is_functional_template__$3 = false;
-/* style inject */
-
-/* style inject SSR */
-
-/* style inject shadow dom */
-
-var MapGeography = normalizeComponent({
-  render: __vue_render__$3,
-  staticRenderFns: __vue_staticRenderFns__$3
-}, __vue_inject_styles__$3, __vue_script__$3, __vue_scope_id__$3, __vue_is_functional_template__$3, __vue_module_identifier__$3, false, undefined, undefined, undefined);
 exports.MapGeography = MapGeography;
-var script$4 = {
+var script$2 = {
   props: {
     step: {
       type: Array,
@@ -49879,10 +48300,10 @@ var script$4 = {
 };
 /* script */
 
-const __vue_script__$4 = script$4;
+const __vue_script__$2 = script$2;
 /* template */
 
-var __vue_render__$4 = function () {
+var __vue_render__$2 = function () {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -49899,20 +48320,20 @@ var __vue_render__$4 = function () {
   }, "path", _vm.$attrs, false)) : _vm._e();
 };
 
-var __vue_staticRenderFns__$4 = [];
-__vue_render__$4._withStripped = true;
+var __vue_staticRenderFns__$2 = [];
+__vue_render__$2._withStripped = true;
 /* style */
 
-const __vue_inject_styles__$4 = undefined;
+const __vue_inject_styles__$2 = undefined;
 /* scoped */
 
-const __vue_scope_id__$4 = undefined;
+const __vue_scope_id__$2 = undefined;
 /* module identifier */
 
-const __vue_module_identifier__$4 = undefined;
+const __vue_module_identifier__$2 = undefined;
 /* functional template */
 
-const __vue_is_functional_template__$4 = false;
+const __vue_is_functional_template__$2 = false;
 /* style inject */
 
 /* style inject SSR */
@@ -49920,11 +48341,11 @@ const __vue_is_functional_template__$4 = false;
 /* style inject shadow dom */
 
 var MapGraticule = normalizeComponent({
-  render: __vue_render__$4,
-  staticRenderFns: __vue_staticRenderFns__$4
-}, __vue_inject_styles__$4, __vue_script__$4, __vue_scope_id__$4, __vue_is_functional_template__$4, __vue_module_identifier__$4, false, undefined, undefined, undefined);
+  render: __vue_render__$2,
+  staticRenderFns: __vue_staticRenderFns__$2
+}, __vue_inject_styles__$2, __vue_script__$2, __vue_scope_id__$2, __vue_is_functional_template__$2, __vue_module_identifier__$2, false, undefined, undefined, undefined);
 exports.MapGraticule = MapGraticule;
-var script$5 = {
+var script$3 = {
   props: {
     from: {
       type: Array,
@@ -49987,10 +48408,10 @@ var script$5 = {
 };
 /* script */
 
-const __vue_script__$5 = script$5;
+const __vue_script__$3 = script$3;
 /* template */
 
-var __vue_render__$5 = function () {
+var __vue_render__$3 = function () {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -50008,20 +48429,20 @@ var __vue_render__$5 = function () {
   }) : _vm._e();
 };
 
-var __vue_staticRenderFns__$5 = [];
-__vue_render__$5._withStripped = true;
+var __vue_staticRenderFns__$3 = [];
+__vue_render__$3._withStripped = true;
 /* style */
 
-const __vue_inject_styles__$5 = undefined;
+const __vue_inject_styles__$3 = undefined;
 /* scoped */
 
-const __vue_scope_id__$5 = undefined;
+const __vue_scope_id__$3 = undefined;
 /* module identifier */
 
-const __vue_module_identifier__$5 = undefined;
+const __vue_module_identifier__$3 = undefined;
 /* functional template */
 
-const __vue_is_functional_template__$5 = false;
+const __vue_is_functional_template__$3 = false;
 /* style inject */
 
 /* style inject SSR */
@@ -50029,21 +48450,24 @@ const __vue_is_functional_template__$5 = false;
 /* style inject shadow dom */
 
 var MapLine = normalizeComponent({
-  render: __vue_render__$5,
-  staticRenderFns: __vue_staticRenderFns__$5
-}, __vue_inject_styles__$5, __vue_script__$5, __vue_scope_id__$5, __vue_is_functional_template__$5, __vue_module_identifier__$5, false, undefined, undefined, undefined);
+  render: __vue_render__$3,
+  staticRenderFns: __vue_staticRenderFns__$3
+}, __vue_inject_styles__$3, __vue_script__$3, __vue_scope_id__$3, __vue_is_functional_template__$3, __vue_module_identifier__$3, false, undefined, undefined, undefined);
 exports.MapLine = MapLine;
-var script$6 = {
+var MapMarker = {
   props: {
     coordinates: {
       type: Array,
       required: true
-    }
+    },
+    r: Number,
+    fill: String
   },
 
   setup(props, {
     attrs,
-    root
+    root,
+    slots
   }) {
     const context = (0, _compositionApi.inject)(ContextSymbol);
     const point = (0, _compositionApi.computed)(() => {
@@ -50074,61 +48498,21 @@ var script$6 = {
       if (!context) return;
       setTimeout(() => context.update = Math.random(), 100); // hack
     });
-    return {
-      canvas: context && context.canvas,
-      transform: (0, _compositionApi.computed)(() => {
-        return `translate(${point.value.x}, ${point.value.y})`;
-      })
-    };
+
+    if (context && !context.canvas) {
+      const transform = (0, _compositionApi.computed)(() => `translate(${point.value.x}, ${point.value.y})`);
+      return () => (0, _compositionApi.createElement)('g', {
+        class: 'vue-map-marker',
+        attrs: {
+          transform: transform.value
+        }
+      }, [slots.default()]);
+    }
   }
 
 };
-/* script */
-
-const __vue_script__$6 = script$6;
-/* template */
-
-var __vue_render__$6 = function () {
-  var _vm = this;
-
-  var _h = _vm.$createElement;
-
-  var _c = _vm._self._c || _h;
-
-  return !_vm.canvas ? _c("g", {
-    staticClass: "rsm-marker",
-    attrs: {
-      transform: _vm.transform
-    }
-  }, [_vm._t("default")], 2) : _vm._e();
-};
-
-var __vue_staticRenderFns__$6 = [];
-__vue_render__$6._withStripped = true;
-/* style */
-
-const __vue_inject_styles__$6 = undefined;
-/* scoped */
-
-const __vue_scope_id__$6 = undefined;
-/* module identifier */
-
-const __vue_module_identifier__$6 = undefined;
-/* functional template */
-
-const __vue_is_functional_template__$6 = false;
-/* style inject */
-
-/* style inject SSR */
-
-/* style inject shadow dom */
-
-var MapMarker = normalizeComponent({
-  render: __vue_render__$6,
-  staticRenderFns: __vue_staticRenderFns__$6
-}, __vue_inject_styles__$6, __vue_script__$6, __vue_scope_id__$6, __vue_is_functional_template__$6, __vue_module_identifier__$6, false, undefined, undefined, undefined);
 exports.MapMarker = MapMarker;
-var script$7 = {
+var script$4 = {
   inheritAttrs: false,
   props: {
     id: {
@@ -50179,10 +48563,10 @@ var script$7 = {
 };
 /* script */
 
-const __vue_script__$7 = script$7;
+const __vue_script__$4 = script$4;
 /* template */
 
-var __vue_render__$7 = function () {
+var __vue_render__$4 = function () {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -50208,20 +48592,20 @@ var __vue_render__$7 = function () {
   }, "path", _vm.$attrs, false))]) : _vm._e();
 };
 
-var __vue_staticRenderFns__$7 = [];
-__vue_render__$7._withStripped = true;
+var __vue_staticRenderFns__$4 = [];
+__vue_render__$4._withStripped = true;
 /* style */
 
-const __vue_inject_styles__$7 = undefined;
+const __vue_inject_styles__$4 = undefined;
 /* scoped */
 
-const __vue_scope_id__$7 = "data-v-625d3dbe";
+const __vue_scope_id__$4 = "data-v-625d3dbe";
 /* module identifier */
 
-const __vue_module_identifier__$7 = undefined;
+const __vue_module_identifier__$4 = undefined;
 /* functional template */
 
-const __vue_is_functional_template__$7 = false;
+const __vue_is_functional_template__$4 = false;
 /* style inject */
 
 /* style inject SSR */
@@ -50229,11 +48613,11 @@ const __vue_is_functional_template__$7 = false;
 /* style inject shadow dom */
 
 var MapSphere = normalizeComponent({
-  render: __vue_render__$7,
-  staticRenderFns: __vue_staticRenderFns__$7
-}, __vue_inject_styles__$7, __vue_script__$7, __vue_scope_id__$7, __vue_is_functional_template__$7, __vue_module_identifier__$7, false, undefined, undefined, undefined);
+  render: __vue_render__$4,
+  staticRenderFns: __vue_staticRenderFns__$4
+}, __vue_inject_styles__$4, __vue_script__$4, __vue_scope_id__$4, __vue_is_functional_template__$4, __vue_module_identifier__$4, false, undefined, undefined, undefined);
 exports.MapSphere = MapSphere;
-var script$8 = {
+var script$5 = {
   inheritAttrs: false,
   props: {
     subject: Array,
@@ -50309,10 +48693,10 @@ var script$8 = {
 };
 /* script */
 
-const __vue_script__$8 = script$8;
+const __vue_script__$5 = script$5;
 /* template */
 
-var __vue_render__$8 = function () {
+var __vue_render__$5 = function () {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -50332,20 +48716,20 @@ var __vue_render__$8 = function () {
   }, "path", _vm.$attrs, false)), _vm._v(" "), _vm._t("default")], 2) : _vm._e();
 };
 
-var __vue_staticRenderFns__$8 = [];
-__vue_render__$8._withStripped = true;
+var __vue_staticRenderFns__$5 = [];
+__vue_render__$5._withStripped = true;
 /* style */
 
-const __vue_inject_styles__$8 = undefined;
+const __vue_inject_styles__$5 = undefined;
 /* scoped */
 
-const __vue_scope_id__$8 = undefined;
+const __vue_scope_id__$5 = undefined;
 /* module identifier */
 
-const __vue_module_identifier__$8 = undefined;
+const __vue_module_identifier__$5 = undefined;
 /* functional template */
 
-const __vue_is_functional_template__$8 = false;
+const __vue_is_functional_template__$5 = false;
 /* style inject */
 
 /* style inject SSR */
@@ -50353,9 +48737,9 @@ const __vue_is_functional_template__$8 = false;
 /* style inject shadow dom */
 
 var MapAnnotation = normalizeComponent({
-  render: __vue_render__$8,
-  staticRenderFns: __vue_staticRenderFns__$8
-}, __vue_inject_styles__$8, __vue_script__$8, __vue_scope_id__$8, __vue_is_functional_template__$8, __vue_module_identifier__$8, false, undefined, undefined, undefined);
+  render: __vue_render__$5,
+  staticRenderFns: __vue_staticRenderFns__$5
+}, __vue_inject_styles__$5, __vue_script__$5, __vue_scope_id__$5, __vue_is_functional_template__$5, __vue_module_identifier__$5, false, undefined, undefined, undefined);
 exports.MapAnnotation = MapAnnotation;
 var components =
 /*#__PURE__*/
@@ -50383,7 +48767,381 @@ const plugin = {
 };
 var _default = plugin;
 exports.default = _default;
-},{"@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js","d3":"../node_modules/d3/index.js"}],"../node_modules/parcel/src/builtins/bundle-loader.js":[function(require,module,exports) {
+},{"@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js","d3":"../node_modules/d3/index.js"}],"../node_modules/vue-hot-reload-api/dist/index.js":[function(require,module,exports) {
+var Vue // late bind
+var version
+var map = Object.create(null)
+if (typeof window !== 'undefined') {
+  window.__VUE_HOT_MAP__ = map
+}
+var installed = false
+var isBrowserify = false
+var initHookName = 'beforeCreate'
+
+exports.install = function (vue, browserify) {
+  if (installed) { return }
+  installed = true
+
+  Vue = vue.__esModule ? vue.default : vue
+  version = Vue.version.split('.').map(Number)
+  isBrowserify = browserify
+
+  // compat with < 2.0.0-alpha.7
+  if (Vue.config._lifecycleHooks.indexOf('init') > -1) {
+    initHookName = 'init'
+  }
+
+  exports.compatible = version[0] >= 2
+  if (!exports.compatible) {
+    console.warn(
+      '[HMR] You are using a version of vue-hot-reload-api that is ' +
+        'only compatible with Vue.js core ^2.0.0.'
+    )
+    return
+  }
+}
+
+/**
+ * Create a record for a hot module, which keeps track of its constructor
+ * and instances
+ *
+ * @param {String} id
+ * @param {Object} options
+ */
+
+exports.createRecord = function (id, options) {
+  if(map[id]) { return }
+
+  var Ctor = null
+  if (typeof options === 'function') {
+    Ctor = options
+    options = Ctor.options
+  }
+  makeOptionsHot(id, options)
+  map[id] = {
+    Ctor: Ctor,
+    options: options,
+    instances: []
+  }
+}
+
+/**
+ * Check if module is recorded
+ *
+ * @param {String} id
+ */
+
+exports.isRecorded = function (id) {
+  return typeof map[id] !== 'undefined'
+}
+
+/**
+ * Make a Component options object hot.
+ *
+ * @param {String} id
+ * @param {Object} options
+ */
+
+function makeOptionsHot(id, options) {
+  if (options.functional) {
+    var render = options.render
+    options.render = function (h, ctx) {
+      var instances = map[id].instances
+      if (ctx && instances.indexOf(ctx.parent) < 0) {
+        instances.push(ctx.parent)
+      }
+      return render(h, ctx)
+    }
+  } else {
+    injectHook(options, initHookName, function() {
+      var record = map[id]
+      if (!record.Ctor) {
+        record.Ctor = this.constructor
+      }
+      record.instances.push(this)
+    })
+    injectHook(options, 'beforeDestroy', function() {
+      var instances = map[id].instances
+      instances.splice(instances.indexOf(this), 1)
+    })
+  }
+}
+
+/**
+ * Inject a hook to a hot reloadable component so that
+ * we can keep track of it.
+ *
+ * @param {Object} options
+ * @param {String} name
+ * @param {Function} hook
+ */
+
+function injectHook(options, name, hook) {
+  var existing = options[name]
+  options[name] = existing
+    ? Array.isArray(existing) ? existing.concat(hook) : [existing, hook]
+    : [hook]
+}
+
+function tryWrap(fn) {
+  return function (id, arg) {
+    try {
+      fn(id, arg)
+    } catch (e) {
+      console.error(e)
+      console.warn(
+        'Something went wrong during Vue component hot-reload. Full reload required.'
+      )
+    }
+  }
+}
+
+function updateOptions (oldOptions, newOptions) {
+  for (var key in oldOptions) {
+    if (!(key in newOptions)) {
+      delete oldOptions[key]
+    }
+  }
+  for (var key$1 in newOptions) {
+    oldOptions[key$1] = newOptions[key$1]
+  }
+}
+
+exports.rerender = tryWrap(function (id, options) {
+  var record = map[id]
+  if (!options) {
+    record.instances.slice().forEach(function (instance) {
+      instance.$forceUpdate()
+    })
+    return
+  }
+  if (typeof options === 'function') {
+    options = options.options
+  }
+  if (record.Ctor) {
+    record.Ctor.options.render = options.render
+    record.Ctor.options.staticRenderFns = options.staticRenderFns
+    record.instances.slice().forEach(function (instance) {
+      instance.$options.render = options.render
+      instance.$options.staticRenderFns = options.staticRenderFns
+      // reset static trees
+      // pre 2.5, all static trees are cached together on the instance
+      if (instance._staticTrees) {
+        instance._staticTrees = []
+      }
+      // 2.5.0
+      if (Array.isArray(record.Ctor.options.cached)) {
+        record.Ctor.options.cached = []
+      }
+      // 2.5.3
+      if (Array.isArray(instance.$options.cached)) {
+        instance.$options.cached = []
+      }
+
+      // post 2.5.4: v-once trees are cached on instance._staticTrees.
+      // Pure static trees are cached on the staticRenderFns array
+      // (both already reset above)
+
+      // 2.6: temporarily mark rendered scoped slots as unstable so that
+      // child components can be forced to update
+      var restore = patchScopedSlots(instance)
+      instance.$forceUpdate()
+      instance.$nextTick(restore)
+    })
+  } else {
+    // functional or no instance created yet
+    record.options.render = options.render
+    record.options.staticRenderFns = options.staticRenderFns
+
+    // handle functional component re-render
+    if (record.options.functional) {
+      // rerender with full options
+      if (Object.keys(options).length > 2) {
+        updateOptions(record.options, options)
+      } else {
+        // template-only rerender.
+        // need to inject the style injection code for CSS modules
+        // to work properly.
+        var injectStyles = record.options._injectStyles
+        if (injectStyles) {
+          var render = options.render
+          record.options.render = function (h, ctx) {
+            injectStyles.call(ctx)
+            return render(h, ctx)
+          }
+        }
+      }
+      record.options._Ctor = null
+      // 2.5.3
+      if (Array.isArray(record.options.cached)) {
+        record.options.cached = []
+      }
+      record.instances.slice().forEach(function (instance) {
+        instance.$forceUpdate()
+      })
+    }
+  }
+})
+
+exports.reload = tryWrap(function (id, options) {
+  var record = map[id]
+  if (options) {
+    if (typeof options === 'function') {
+      options = options.options
+    }
+    makeOptionsHot(id, options)
+    if (record.Ctor) {
+      if (version[1] < 2) {
+        // preserve pre 2.2 behavior for global mixin handling
+        record.Ctor.extendOptions = options
+      }
+      var newCtor = record.Ctor.super.extend(options)
+      // prevent record.options._Ctor from being overwritten accidentally
+      newCtor.options._Ctor = record.options._Ctor
+      record.Ctor.options = newCtor.options
+      record.Ctor.cid = newCtor.cid
+      record.Ctor.prototype = newCtor.prototype
+      if (newCtor.release) {
+        // temporary global mixin strategy used in < 2.0.0-alpha.6
+        newCtor.release()
+      }
+    } else {
+      updateOptions(record.options, options)
+    }
+  }
+  record.instances.slice().forEach(function (instance) {
+    if (instance.$vnode && instance.$vnode.context) {
+      instance.$vnode.context.$forceUpdate()
+    } else {
+      console.warn(
+        'Root or manually mounted instance modified. Full reload required.'
+      )
+    }
+  })
+})
+
+// 2.6 optimizes template-compiled scoped slots and skips updates if child
+// only uses scoped slots. We need to patch the scoped slots resolving helper
+// to temporarily mark all scoped slots as unstable in order to force child
+// updates.
+function patchScopedSlots (instance) {
+  if (!instance._u) { return }
+  // https://github.com/vuejs/vue/blob/dev/src/core/instance/render-helpers/resolve-scoped-slots.js
+  var original = instance._u
+  instance._u = function (slots) {
+    try {
+      // 2.6.4 ~ 2.6.6
+      return original(slots, true)
+    } catch (e) {
+      // 2.5 / >= 2.6.7
+      return original(slots, null, true)
+    }
+  }
+  return function () {
+    instance._u = original
+  }
+}
+
+},{}],"components/Fade.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _animejs = _interopRequireDefault(require("animejs"));
+
+var _compositionApi = require("@vue/composition-api");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+var _default = {
+  props: {
+    current: Number
+  },
+
+  setup(props, {
+    slots
+  }) {
+    const animated = (0, _compositionApi.ref)(null);
+    (0, _compositionApi.watch)([() => props.current, animated], () => {
+      _animejs.default.remove(animated.value);
+
+      (0, _animejs.default)({
+        targets: animated.value,
+        opacity: [0, 1],
+        duration: 2000,
+        direction: "alternate",
+        easing: 'easeOutExpo'
+      });
+    });
+    return {
+      animated
+    };
+  }
+
+};
+exports.default = _default;
+        var $4efce3 = exports.default || module.exports;
+      
+      if (typeof $4efce3 === 'function') {
+        $4efce3 = $4efce3.options;
+      }
+    
+        /* template */
+        Object.assign($4efce3, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { ref: "animated", staticClass: "animated" },
+    [_vm._t("default")],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: null,
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$4efce3', $4efce3);
+          } else {
+            api.reload('$4efce3', $4efce3);
+          }
+        }
+
+        
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+      }
+    })();
+},{"animejs":"../node_modules/animejs/lib/anime.es.js","@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js","_css_loader":"../node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.common.js"}],"../node_modules/parcel/src/builtins/bundle-loader.js":[function(require,module,exports) {
 var getBundleURL = require('./bundle-url').getBundleURL;
 
 function loadBundlesLazy(bundles) {
@@ -50487,6 +49245,8 @@ var _vueP = _interopRequireDefault(require("vue-p5"));
 
 var _VueMapEsm = _interopRequireDefault(require("@eliaspourquoi/vue-map/dist/VueMap.esm.js"));
 
+var _Fade = _interopRequireDefault(require("~/components/Fade.vue"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue.default.use(_vueTypedJs.default);
@@ -50502,6 +49262,8 @@ _vue.default.use(_VueMapEsm.default);
 _vue.default.use(_vueAnime.default);
 
 _vue.default.component('vue-p5', _vueP.default);
+
+_vue.default.component('fade', _Fade.default);
 
 function addRef(el, binding, vnode) {
   const ref = binding.arg;
@@ -50545,7 +49307,18 @@ const router = new _vueRouter.default({
   mode: "history",
   routes: [{
     path: "/",
-    component: () => require("_bundle_loader")(require.resolve("./pages/Home.vue"))
+    redirect: '/chapter/1'
+  }, {
+    path: '/chapter/1',
+    name: 'chapter/1',
+    component: () => require("_bundle_loader")(require.resolve("./pages/Chapter1.vue"))
+  }, {
+    path: "/chapter/2",
+    name: 'chapter/2',
+    component: () => require("_bundle_loader")(require.resolve("./pages/Chapter2.vue"))
+  }, {
+    path: "*",
+    redirect: '/'
   }]
 });
 new _vue.default({
@@ -50556,7 +49329,56 @@ new _vue.default({
     </transition>
   `
 }).$mount("#app");
-},{"~/assets/styles.css":"assets/styles.css","vue":"../node_modules/vue/dist/vue.common.js","vue-router":"../node_modules/vue-router/dist/vue-router.esm.js","@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js","vue-typed-js":"../node_modules/vue-typed-js/index.js","~/utils/vueAnime.js":"utils/vueAnime.js","portal-vue":"../node_modules/portal-vue/dist/portal-vue.common.js","vue-p5":"../node_modules/vue-p5/dist/vue-p5.js","@eliaspourquoi/vue-map/dist/VueMap.esm.js":"../node_modules/@eliaspourquoi/vue-map/dist/VueMap.esm.js","_bundle_loader":"../node_modules/parcel/src/builtins/bundle-loader.js","./pages/Home.vue":[["Home.fffbef71.js","pages/Home.vue"],"Home.fffbef71.js.map","Home.fffbef71.css","pages/Home.vue"]}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"~/assets/styles.css":"assets/styles.css","vue":"../node_modules/vue/dist/vue.common.js","vue-router":"../node_modules/vue-router/dist/vue-router.esm.js","@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js","vue-typed-js":"../node_modules/vue-typed-js/index.js","~/utils/vueAnime.js":"utils/vueAnime.js","portal-vue":"../node_modules/portal-vue/dist/portal-vue.common.js","vue-p5":"../node_modules/vue-p5/dist/vue-p5.js","@eliaspourquoi/vue-map/dist/VueMap.esm.js":"../node_modules/@eliaspourquoi/vue-map/dist/VueMap.esm.js","~/components/Fade.vue":"components/Fade.vue","_bundle_loader":"../node_modules/parcel/src/builtins/bundle-loader.js","./pages/Chapter1.vue":[["Chapter1.c6d36e0f.js","pages/Chapter1.vue"],"Chapter1.c6d36e0f.js.map","Chapter1.c6d36e0f.css","pages/Chapter1.vue"],"./pages/Chapter2.vue":[["Chapter2.06f942a8.js","pages/Chapter2.vue"],"Chapter2.06f942a8.js.map","pages/Chapter2.vue"]}],"utils/useAnime.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _compositionApi = require("@vue/composition-api");
+
+const rotate = (arr, x) => arr.slice(x).concat(arr.slice(0, x));
+
+var _default = ({
+  duration = 3000,
+  loop = false
+}) => {
+  console.log(duration);
+  const sequences = (0, _compositionApi.ref)([]);
+  const current = (0, _compositionApi.ref)(0);
+  const play = (0, _compositionApi.ref)(true);
+  const stopped = (0, _compositionApi.ref)(false);
+
+  const animate = async () => {
+    stopped.value = false;
+
+    for (const [i, seq] of rotate([...sequences.value.entries()], current.value || 0)) {
+      current.value = i;
+      seq.current = true;
+      await new Promise(resolve => setTimeout(resolve, seq.duration || duration));
+      if (!play.value) break;
+      seq.current = false;
+    }
+
+    if (loop && play.value) animate();else stopped.value = true;
+  };
+
+  (0, _compositionApi.watch)([sequences, play], () => {
+    if (!sequences.value.length) return;
+    if (play) animate();
+  });
+  return {
+    sequences,
+    current,
+    play: value => play.value = value,
+    stopped
+  };
+};
+
+exports.default = _default;
+},{"@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -50584,7 +49406,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50522" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56844" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

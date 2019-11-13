@@ -19,7 +19,10 @@ Vue.use(VueAnime);
 
 Vue.component('vue-p5', VueP5);
 
-function addRef (el, binding, vnode) {
+import Fade from '~/components/Fade.vue';
+Vue.component('fade', Fade);
+
+function addRef(el, binding, vnode) {
   const ref = binding.arg
   const vm = vnode.context
   const thing = vnode.componentInstance || vnode.elm
@@ -28,20 +31,20 @@ function addRef (el, binding, vnode) {
   }
   const index = vm.$refs[ref].indexOf(thing)
   if (index == -1) {
-  	vnode.context.$refs[ref].push(thing)
- 	}
+    vnode.context.$refs[ref].push(thing)
+  }
 }
 
-function removeRef (el, {arg: ref }, {context: vm }, vnode) {
-    if (vm.$refs.hasOwnProperty(ref)) {
-      const arr = vm.$refs[ref]
-      const thing = vnode.componentInstance || vnode.elm
-    	const index = arr.indexOf(thing)
-      if (index) {
-        arr.splice(index, 1)
-      }
-  	}
+function removeRef(el, { arg: ref }, { context: vm }, vnode) {
+  if (vm.$refs.hasOwnProperty(ref)) {
+    const arr = vm.$refs[ref]
+    const thing = vnode.componentInstance || vnode.elm
+    const index = arr.indexOf(thing)
+    if (index) {
+      arr.splice(index, 1)
+    }
   }
+}
 
 Vue.directive('refs', {
   bind: addRef,
@@ -51,7 +54,26 @@ Vue.directive('refs', {
 
 const router = new VueRouter({
   mode: "history",
-  routes: [{ path: "/", component: () => import("./pages/Home.vue") }]
+  routes: [
+    {
+      path: "/",
+      redirect: '/chapter/1',
+    },
+    {
+      path: '/chapter/1',
+      name: 'chapter/1',
+      component: () => import("./pages/Chapter1.vue")
+    },
+    {
+      path: "/chapter/2",
+      name: 'chapter/2',
+      component: () => import("./pages/Chapter2.vue")
+    },
+    {
+      path: "*",
+      redirect: '/',
+    }
+  ]
 });
 
 new Vue({

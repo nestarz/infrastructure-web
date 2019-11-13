@@ -30,6 +30,13 @@
   /* transform: translateY(-30%); */
 }
 
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 :root {
   --background: hsl(0, 0%, 100%);
   --color: black;
@@ -43,7 +50,6 @@ body,
 html {
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 body,
@@ -77,6 +83,9 @@ h1 {
 }
 
 p {
-  font-size: 1.6em;
   margin: 0;
+}
+
+img {
+  max-width: 100%;
 }

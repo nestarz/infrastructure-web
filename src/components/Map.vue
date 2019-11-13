@@ -1,7 +1,7 @@
 <template>
   <map-composable :projection="projection" :projection-config="config" :canvas="false" class="map">
-    <map-graticule fill="transparent" stroke="black" :stroke-width="1"></map-graticule>
-    <map-sphere stroke="black" :stroke-width="2"></map-sphere>
+    <map-graticule fill="transparent" stroke="var(--color)" :stroke-width="1"></map-graticule>
+    <map-sphere stroke="var(--color)" :stroke-width="2"></map-sphere>
     <map-geographies :geography="geoUrl">
       <template v-slot:default="{geographies}">
         <map-geography
@@ -28,7 +28,7 @@ export default {
     projection: { type: String, default: "geoOrthographic" },
     name: String,
     rotate: Boolean,
-    scale: { type: Number, default: 80 },
+    scale: { type: Number, default: 80 }
   },
   setup(props) {
     const rotate = reactive({
@@ -51,9 +51,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.map {
-  max-height: 50vh;
-}
-</style>

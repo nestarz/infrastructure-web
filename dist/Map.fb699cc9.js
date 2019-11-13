@@ -3624,10 +3624,16 @@ exports.default = _default;
     },
     [
       _c("map-graticule", {
-        attrs: { fill: "transparent", stroke: "black", "stroke-width": 1 }
+        attrs: {
+          fill: "transparent",
+          stroke: "var(--color)",
+          "stroke-width": 1
+        }
       }),
       _vm._v(" "),
-      _c("map-sphere", { attrs: { stroke: "black", "stroke-width": 2 } }),
+      _c("map-sphere", {
+        attrs: { stroke: "var(--color)", "stroke-width": 2 }
+      }),
       _vm._v(" "),
       _c("map-geographies", {
         attrs: { geography: _vm.geoUrl },
@@ -3663,7 +3669,7 @@ render._withStripped = true
             render: render,
             staticRenderFns: staticRenderFns,
             _compiled: true,
-            _scopeId: "data-v-1a7eb3",
+            _scopeId: null,
             functional: undefined
           };
         })());
@@ -3683,13 +3689,9 @@ render._withStripped = true
         }
 
         
-        var reloadCSS = require('_css_loader');
-        module.hot.dispose(reloadCSS);
-        module.hot.accept(reloadCSS);
-      
       }
     })();
-},{"@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js","~/assets/json/world-110m.json":"assets/json/world-110m.json","~/utils/requestAnimationFps.js":"utils/requestAnimationFps.js","_css_loader":"../node_modules/parcel/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.common.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js","~/assets/json/world-110m.json":"assets/json/world-110m.json","~/utils/requestAnimationFps.js":"utils/requestAnimationFps.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.common.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -3717,7 +3719,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50522" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56844" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
