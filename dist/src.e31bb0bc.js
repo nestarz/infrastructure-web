@@ -49259,9 +49259,9 @@ _vue.default.use(_VueMapEsm.default);
 
 _vue.default.use(_vueAnime.default);
 
-_vue.default.component('vue-p5', _vueP.default);
+_vue.default.component("vue-p5", _vueP.default);
 
-_vue.default.component('fade', _Fade.default);
+_vue.default.component("fade", _Fade.default);
 
 function addRef(el, binding, vnode) {
   const ref = binding.arg;
@@ -49295,7 +49295,7 @@ function removeRef(el, {
   }
 }
 
-_vue.default.directive('refs', {
+_vue.default.directive("refs", {
   bind: addRef,
   update: addRef,
   unbind: removeRef
@@ -49305,18 +49305,22 @@ const router = new _vueRouter.default({
   mode: "history",
   routes: [{
     path: "/",
-    redirect: '/chapter/1'
+    redirect: "/chapter/1"
   }, {
-    path: '/chapter/1',
-    name: 'chapter/1',
+    path: "/chapter/1",
+    name: "chapter/1",
     component: () => require("_bundle_loader")(require.resolve("./pages/Chapter1.vue"))
   }, {
     path: "/chapter/2",
-    name: 'chapter/2',
+    name: "chapter/2",
     component: () => require("_bundle_loader")(require.resolve("./pages/Chapter2.vue"))
   }, {
+    path: "/test",
+    name: "test",
+    component: () => require("_bundle_loader")(require.resolve("./pages/Test.vue"))
+  }, {
     path: "*",
-    redirect: '/'
+    redirect: "/"
   }]
 });
 new _vue.default({
@@ -49327,116 +49331,7 @@ new _vue.default({
     </transition>
   `
 }).$mount("#app");
-},{"~/assets/styles.css":"assets/styles.css","vue":"../node_modules/vue/dist/vue.common.js","vue-router":"../node_modules/vue-router/dist/vue-router.esm.js","@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js","vue-typed-js":"../node_modules/vue-typed-js/index.js","~/utils/vueAnime.js":"utils/vueAnime.js","portal-vue":"../node_modules/portal-vue/dist/portal-vue.common.js","vue-p5":"../node_modules/vue-p5/dist/vue-p5.js","@eliaspourquoi/vue-map/dist/VueMap.esm.js":"../node_modules/@eliaspourquoi/vue-map/dist/VueMap.esm.js","~/components/Fade.vue":"components/Fade.vue","_bundle_loader":"../node_modules/parcel/src/builtins/bundle-loader.js","./pages/Chapter1.vue":[["Chapter1.c6d36e0f.js","pages/Chapter1.vue"],"Chapter1.c6d36e0f.js.map","Chapter1.c6d36e0f.css","pages/Chapter1.vue"],"./pages/Chapter2.vue":[["Chapter2.06f942a8.js","pages/Chapter2.vue"],"Chapter2.06f942a8.js.map","pages/Chapter2.vue"]}],"utils/useAnime.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _compositionApi = require("@vue/composition-api");
-
-const rotate = (arr, x) => {
-  const res = arr.slice(x).concat(arr.slice(0, x));
-  return res;
-};
-
-const wait = (duration, play) => new Promise(resolve => {
-  const ended = (0, _compositionApi.ref)(false);
-  const timeout = setTimeout(() => {
-    ended.value = true;
-  }, duration);
-  const stopWatch = (0, _compositionApi.watch)([ended, play], () => {
-    if (ended.value || !play.value) {
-      clearTimeout(timeout);
-      stopWatch();
-      resolve();
-    }
-  }, {
-    lazy: true
-  });
-});
-
-var _default = ({
-  duration = 3000,
-  loop = false
-}) => {
-  const sequences = (0, _compositionApi.ref)([]);
-  const current = (0, _compositionApi.ref)(0);
-  const order = (0, _compositionApi.computed)(() => rotate([...sequences.value.entries()], current.value || 0));
-  const play = (0, _compositionApi.ref)(true);
-  const pause = (0, _compositionApi.ref)(false);
-  const jump = (0, _compositionApi.ref)(0);
-  const ended = (0, _compositionApi.ref)(false);
-  const running = (0, _compositionApi.ref)(false);
-  let previous;
-
-  const animate = async () => {
-    if (running.value) {
-      console.error("Can't launch another animation.");
-    }
-
-    running.value = true;
-
-    for (const [i, sequence] of order.value) {
-      if (previous) previous.display = false;
-      current.value = i;
-      sequence.display = true;
-      previous = sequence;
-      await wait(duration || sequence.duration, play);
-
-      if (!play.value) {
-        break;
-      }
-
-      sequence.display = false;
-    }
-
-    running.value = false;
-
-    if (play.value && loop) {
-      animate();
-    } else {
-      play.value = false;
-    }
-  };
-
-  (0, _compositionApi.watch)([sequences, play], () => {
-    if (sequences.value.length && play.value && !running.value) {
-      animate();
-    }
-  });
-  (0, _compositionApi.watch)([jump, play], () => {
-    if (!play.value && jump.value) {
-      current.value = (current.value + jump.value) % sequences.value.length;
-      setTimeout(() => {
-        play.value = true;
-        pause.value = false;
-      }, 1);
-      jump.value = null;
-    }
-  }, {
-    lazy: true
-  });
-  return {
-    sequences,
-    current,
-    play: value => {
-      play.value = value;
-      pause.value = !value;
-    },
-    jump: value => {
-      play.value = false;
-      pause.value = true;
-      jump.value = value;
-    },
-    ended: (0, _compositionApi.computed)(() => !play.value && !pause.value)
-  };
-};
-
-exports.default = _default;
-},{"@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"~/assets/styles.css":"assets/styles.css","vue":"../node_modules/vue/dist/vue.common.js","vue-router":"../node_modules/vue-router/dist/vue-router.esm.js","@vue/composition-api":"../node_modules/@vue/composition-api/dist/vue-composition-api.module.js","vue-typed-js":"../node_modules/vue-typed-js/index.js","~/utils/vueAnime.js":"utils/vueAnime.js","portal-vue":"../node_modules/portal-vue/dist/portal-vue.common.js","vue-p5":"../node_modules/vue-p5/dist/vue-p5.js","@eliaspourquoi/vue-map/dist/VueMap.esm.js":"../node_modules/@eliaspourquoi/vue-map/dist/VueMap.esm.js","~/components/Fade.vue":"components/Fade.vue","_bundle_loader":"../node_modules/parcel/src/builtins/bundle-loader.js","./pages/Chapter1.vue":[["Chapter1.c6d36e0f.js","pages/Chapter1.vue"],"Chapter1.c6d36e0f.js.map","Chapter1.c6d36e0f.css","pages/Chapter1.vue"],"./pages/Chapter2.vue":[["Chapter2.06f942a8.js","pages/Chapter2.vue"],"Chapter2.06f942a8.js.map","pages/Chapter2.vue"],"./pages/Test.vue":[["Test.080475f7.js","pages/Test.vue"],"Test.080475f7.js.map","Test.080475f7.css","pages/Test.vue"]}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -49464,7 +49359,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58217" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62014" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -25,8 +25,7 @@ const wait = (duration, play) =>
     );
   });
 
-export default ({ duration = 3000, loop = false }) => {
-  const sequences = ref([]);
+export default ({ sequences, duration = 3000, loop = false }) => {
   const current = ref(0);
   const order = computed(() =>
     rotate([...sequences.value.entries()], current.value || 0)
@@ -35,7 +34,6 @@ export default ({ duration = 3000, loop = false }) => {
   const play = ref(true);
   const pause = ref(false);
   const jump = ref(0);
-  const ended = ref(false);
   const running = ref(false);
 
   let previous;
@@ -97,6 +95,7 @@ export default ({ duration = 3000, loop = false }) => {
       pause.value = true;
       jump.value = value;
     },
+    reset: () => {},
     ended: computed(() => !play.value && !pause.value)
   };
 };
