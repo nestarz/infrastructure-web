@@ -120,14 +120,14 @@ export default {
     StoryMap: () => import("~/components/Map.vue")
   },
   setup(props, { root }) {
-    const { sequences, current, play, stopped, jump } = useAnime({
+    const { sequences, current, play, ended, jump } = useAnime({
       duration: 3000,
-      loop: true
+      loop: false
     });
-    // watch(
-    //   stopped,
-    //   () => stopped.value && root._router.push({ path: "/chapter/2" })
-    // );
+    watch(
+      ended,
+      () => ended.value && root._router.push({ path: "/chapter/2" })
+    );
 
     return {
       sequences,

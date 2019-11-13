@@ -49366,8 +49366,9 @@ var _default = ({
   const current = (0, _compositionApi.ref)(0);
   const order = (0, _compositionApi.computed)(() => rotate([...sequences.value.entries()], current.value || 0));
   const play = (0, _compositionApi.ref)(true);
+  const pause = (0, _compositionApi.ref)(false);
   const jump = (0, _compositionApi.ref)(0);
-  const stopped = (0, _compositionApi.ref)(false);
+  const ended = (0, _compositionApi.ref)(false);
   const running = (0, _compositionApi.ref)(false);
   let previous;
 
@@ -49396,6 +49397,8 @@ var _default = ({
 
     if (play.value && loop) {
       animate();
+    } else {
+      play.value = false;
     }
   };
 
@@ -49409,6 +49412,7 @@ var _default = ({
       current.value = (current.value + jump.value) % sequences.value.length;
       setTimeout(() => {
         play.value = true;
+        pause.value = false;
       }, 1);
       jump.value = null;
     }
@@ -49420,12 +49424,14 @@ var _default = ({
     current,
     play: value => {
       play.value = value;
+      pause.value = !value;
     },
     jump: value => {
       play.value = false;
+      pause.value = true;
       jump.value = value;
     },
-    stopped
+    ended: (0, _compositionApi.computed)(() => !play.value && !pause.value)
   };
 };
 

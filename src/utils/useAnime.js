@@ -33,8 +33,9 @@ export default ({ duration = 3000, loop = false }) => {
   );
 
   const play = ref(true);
+  const pause = ref(false);
   const jump = ref(0);
-  const stopped = ref(false);
+  const ended = ref(false);
   const running = ref(false);
 
   let previous;
@@ -42,7 +43,7 @@ export default ({ duration = 3000, loop = false }) => {
     if (running.value) {
       console.error("Can't launch another animation.");
     }
-  
+
     running.value = true;
     for (const [i, sequence] of order.value) {
       if (previous) previous.display = false;
@@ -58,6 +59,8 @@ export default ({ duration = 3000, loop = false }) => {
     running.value = false;
     if (play.value && loop) {
       animate();
+    } else {
+      play.value = false;
     }
   };
 
@@ -74,6 +77,7 @@ export default ({ duration = 3000, loop = false }) => {
         current.value = (current.value + jump.value) % sequences.value.length;
         setTimeout(() => {
           play.value = true;
+          pause.value = false;
         }, 1);
         jump.value = null;
       }
@@ -86,11 +90,13 @@ export default ({ duration = 3000, loop = false }) => {
     current,
     play: value => {
       play.value = value;
+      pause.value = !value;
     },
     jump: value => {
       play.value = false;
+      pause.value = true;
       jump.value = value;
     },
-    stopped
+    ended: computed(() => !play.value && !pause.value)
   };
 };
