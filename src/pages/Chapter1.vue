@@ -1,5 +1,10 @@
 <template>
-  <screens :chapter="1" @play="controls.play" @jump="controls.jump">
+  <screens
+    :chapter="1"
+    :playing="playing"
+    @play="controls.play"
+    @jump="controls.jump"
+  >
     <portal to="screen-1">
       <story-map name="screen-1-map" :rotate="true"></story-map>
       <portal-target name="screen-1-text" class="screen-1-text"></portal-target>
@@ -26,6 +31,8 @@
       root
       :duration="duration"
       @controls="setControls"
+      @playing="playing = true"
+      @paused="playing = false"
       @ended="ended"
       :autoplay="autoplay"
     >
@@ -95,7 +102,12 @@
           <video autoplay controls loop src="/assets/video/switch2.mp4" />
         </portal>
         <portal :to="x" v-for="x in ['screen-1-map', 'screen-2-map']" :key="x">
-          <sequence root :duration="duration / telegraph1901.length" tag="g" :loop="true">
+          <sequence
+            root
+            :duration="duration / telegraph1901.length"
+            tag="g"
+            :loop="true"
+          >
             <sequence v-for="(x, i) in telegraph1901" :key="i" tag="g">
               <map-line
                 v-if="telegraph1901[i + 1]"
@@ -177,9 +189,10 @@ export default {
     const controls = ref({ play: () => null, jump: () => null });
 
     return {
+      playing: ref(false),
       sequence,
       controls,
-      duration: 10000,
+      duration: 1000,
       autoplay: false,
       setControls: value => (controls.value = value),
       ended: () => root._router.push({ path: "/chapter/2" }),

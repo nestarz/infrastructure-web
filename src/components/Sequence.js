@@ -10,17 +10,21 @@ export default {
     id: String,
     start: { type: Number, default: 0 },
     autoplay: { type: Boolean, default: true },
-    tag: { type: String, default: "div" }
+    tag: { type: String, default: "div" },
+    loop: { type: Boolean, default: false }
   },
   setup(props, { slots, emit }) {
     if (!props.root) {
       return () => slots.default && h(props.tag, slots.default());
     }
 
-    const count = ref(props.start);
+    const index = ref(props.start);
 
     let id;
-    const clean = () => id && workerTimers.clearInterval(id);
+    const clean = () => {
+      if (typeof id === "number") workerTimers.clearInterval(id);
+      emit("paused");
+    };
     const animate = () => {
       if (id) {
         console.error("Already playing");
@@ -28,15 +32,17 @@ export default {
       }
 
       id = workerTimers.setInterval(() => {
-        count.value += 1;
+        index.value += 1;
       }, props.duration);
+      emit("playing");
     };
-    if (props.autoplay) animate();
 
+    if (props.autoplay) animate();
     onUnmounted(clean);
+
     emit("controls", {
       jump: v => {
-        count.value += v;
+        index.value += v;
       },
       play: v => {
         if (v && !id) animate();
@@ -44,12 +50,18 @@ export default {
       }
     });
 
-    const render = () => {
-      const sequences = slots.default().filter(withSeq);
-      const elt = sequences[count.value % sequences.length];
-      return [elt];
-    };
+    return () => {
+      if (!slots.default) return null;
 
-    return () => slots.default && h(props.tag, render());
+      const sequences = slots.default().filter(withSeq);
+      const current = index.value % sequences.length;
+      emit("current", current);
+
+      if (!props.loop && current === sequences.length - 1) {
+        clean();
+        emit('ended');
+      }
+      return h(props.tag, [sequences[current]]);
+    };
   }
 };

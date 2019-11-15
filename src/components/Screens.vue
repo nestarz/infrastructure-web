@@ -32,7 +32,7 @@
           >Chapter {{ chapter - 1 }}</router-link
         >
         <li @click="rewind">Rewind</li>
-        <li @click="toggle">{{ play ? "Pause" : "Play" }}</li>
+        <li @click="toggle">{{ playing ? "Pause" : "Play" }}</li>
         <li @click="forward">Forward</li>
         <router-link :to="`/chapter/${chapter + 1}`"
           >Chapter {{ chapter + 1 }}</router-link
@@ -51,15 +51,13 @@ import { ref, watch } from "@vue/composition-api";
 
 export default {
   props: {
-    chapter: { type: Number, required: true }
+    chapter: { type: Number, required: true },
+    playing: Boolean
   },
   setup(props, { emit }) {
-    const play = ref(true);
-    watch(play, () => emit("play", play.value));
     return {
       title: "opt-out the yellow pages",
-      toggle: () => (play.value = !play.value),
-      play,
+      toggle: () => (emit("play", !props.playing)),
       forward: () => emit("jump", +1),
       rewind: () => emit("jump", -1)
     };
