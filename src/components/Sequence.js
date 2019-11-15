@@ -8,6 +8,7 @@ export default {
     root: Boolean,
     duration: Number,
     id: String,
+    start: { type: Number, default: 0 },
     autoplay: { type: Boolean, default: true },
     tag: { type: String, default: "div" }
   },
@@ -16,18 +17,30 @@ export default {
       return () => slots.default && h(props.tag, slots.default());
     }
 
-    const count = ref(4);
+    const count = ref(props.start);
 
-    if (props.autoplay) {
-      const id = workerTimers.setInterval(() => {
+    let id;
+    const clean = () => id && workerTimers.clearInterval(id);
+    const animate = () => {
+      if (id) {
+        console.error("Already playing");
+        return;
+      }
+
+      id = workerTimers.setInterval(() => {
         count.value += 1;
       }, props.duration);
-      onUnmounted(() => workerTimers.clearInterval(id));
-    }
+    };
+    if (props.autoplay) animate();
 
+    onUnmounted(clean);
     emit("controls", {
       jump: v => {
         count.value += v;
+      },
+      play: v => {
+        if (v && !id) animate();
+        else clean();
       }
     });
 
