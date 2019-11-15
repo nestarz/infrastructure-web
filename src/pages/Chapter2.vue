@@ -1,5 +1,10 @@
 <template>
-  <screens :chapter="1" @play="controls.play" @jump="controls.jump">
+  <screens
+    :chapter="1"
+    @play="controls.play"
+    @jump="controls.jump"
+    class="dark"
+  >
     <portal to="screen-1">
       <story-map name="screen-1-map" :rotate="true"></story-map>
       <portal-target name="screen-1-text" class="screen-text">
@@ -14,6 +19,7 @@
         :scale="120"
       ></story-map>
       <portal-target name="screen-2-text" class="map-title"></portal-target>
+      <portal-target name="screen-2-source" class="map-source"></portal-target>
     </portal>
     <portal to="screen-4">
       <portal-target name="screen-4-text" class="screen-text"></portal-target>
@@ -25,6 +31,12 @@
       :autoplay="false"
     >
       <sequence>
+        <portal to="screen-3">
+          <video
+            src="/assets/video/My Name Is Janez Janša (Trailer).mp4"
+            autoplay
+          />
+        </portal>
         <portal to="screen-4-text">
           Dark networks
           <i>(ie. Darknets)</i> are built upon internet ecosystem. They uses the
