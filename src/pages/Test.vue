@@ -1,24 +1,32 @@
 <template>
-  <sequence :duration="x" :loop="true">
-    <sequence :duration="x/4">
-      <sequence>HAHA</sequence>
-      <sequence>PFF</sequence>
-      <sequence>OK</sequence>
-      <sequence>HH</sequence>
+  <div>
+    <sequence root :duration="x" id="root">
+      <sequence>LOL</sequence>
+      <sequence root :duration="x / 10" id="count">
+        <sequence>OK</sequence>
+        <sequence>MDR</sequence>
+        <sequence>MDR1</sequence>
+        <sequence>MDR2</sequence>
+        <sequence>MDR3</sequence>
+      </sequence>
     </sequence>
-    <sequence>APRES MOI</sequence>
-  </sequence>
+  </div>
 </template>
 
 <script>
+import { watch, ref } from "@vue/composition-api";
+
 export default {
   components: {
     Sequence: () => import("~/components/Sequence.js")
   },
   setup() {
+    const controls = ref(null);
     return {
-      x: 2000
-    }
+      x: 1000,
+      controls,
+      setcontrols: value => (controls.value = value)
+    };
   }
 };
 </script>

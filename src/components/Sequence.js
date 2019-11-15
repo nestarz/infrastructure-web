@@ -1,32 +1,42 @@
-import { createElement as h, ref, computed, watch } from "@vue/composition-api";
-import useAnime from "~/utils/useAnime.js";
+import { createElement as h, ref, onUnmounted } from "@vue/composition-api";
+import * as workerTimers from "worker-timers";
+
+const withSeq = x => x.tag && x.tag.includes("sequence");
 
 export default {
   props: {
+    root: Boolean,
     duration: Number,
-    loop: Boolean
+    id: String,
+    autoplay: { type: Boolean, default: true },
+    tag: { type: String, default: "div" }
   },
   setup(props, { slots, emit }) {
-    const childs = ref([]);
-    const sequences = computed(() =>
-      childs.value.filter(x => x.tag && x.tag.includes("sequence"))
-    );
-    const others = computed(() =>
-      childs.value.filter(x => !x.tag || !x.tag.includes("sequence"))
-    );
-    const { current, play, ended, jump } = useAnime({
-      sequences,
-      duration: props.duration,
-      loop: props.loop,
-      autoplay: props.autoplay,
+    if (!props.root) {
+      return () => slots.default && h(props.tag, slots.default());
+    }
+
+    const count = ref(4);
+
+    if (props.autoplay) {
+      const id = workerTimers.setInterval(() => {
+        count.value += 1;
+      }, props.duration);
+      onUnmounted(() => workerTimers.clearInterval(id));
+    }
+
+    emit("controls", {
+      jump: v => {
+        count.value += v;
+      }
     });
-    emit("controls", { jump, play, current });
-    watch(ended, () => ended.value && emit("ended", ended.value));
-    const activeseq = computed(() => sequences.value[current.value]);
+
     const render = () => {
-      childs.value = slots.default();
-      return [...others.value, activeseq.value];
+      const sequences = slots.default().filter(withSeq);
+      const elt = sequences[count.value % sequences.length];
+      return [elt];
     };
-    return () => h("div", render());
+
+    return () => slots.default && h(props.tag, render());
   }
 };

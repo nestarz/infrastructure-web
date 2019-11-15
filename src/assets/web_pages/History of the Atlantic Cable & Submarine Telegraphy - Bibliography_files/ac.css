@@ -1,0 +1,228 @@
+.redsup {
+	vertical-align: super;
+	color: #800000;
+	font-size: 14px
+}
+.redref {
+	color: #800000;
+	font-family: Calibri;
+	font-size: 18px;
+}
+.justify {
+	text-align: justify;
+}
+.georgia {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	}
+.georgia14 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+			font-size: 14px;
+}
+.georgia15 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+			font-size: 15px;
+}.georgia16 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+			font-size: 16px;
+	}
+.georgia18 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+			font-size: 18px;
+	}	
+.georgia20 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+			font-size: 20px;
+	}
+.georgia_small {
+	font-family: Georgia, "Times New Roman", Times, serif;
+			font-size: 12px;
+}
+.georgia_center_caption {
+		font-family: Georgia, "Times New Roman", Times, serif;
+		text-align: center;
+		font-size: 18px;
+}
+.Calibri {
+	font-family: Calibri,sans-serif;
+}
+.Calibri16 {
+	font-family: Calibri,sans-serif;
+			font-size: 16px;
+	}
+.right {
+	text-align: right;
+}
+.center {
+	text-align: center;
+	}
+.left {
+	text-align: left;
+}
+.image_center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}	
+.italic {
+	font-style: italic;
+}
+.small {
+	font-size: small;
+}
+.page_title {
+	font-family: Calibri,sans-serif;
+	font-size: 24px;
+	font-style: italic;
+	color: #006600;
+	text-align: right;
+}
+.page_subhead {
+	font-family: Calibri,sans-serif;
+	font-size: 18px;
+	font-style: italic;
+	color: #006600;
+}
+.page_author {
+	font-family: Calibri,sans-serif;
+	font-size: 18px;
+	font-style: normal;
+	color: #006600;
+}
+.section_title {
+	font-family: Calibri;
+	font-size: 24px;
+	color: #006600;
+	}
+.section_title_red {
+	font-family: Calibri,sans-serif;
+	font-size: 18px;
+	color: #800000;
+}
+.page_footer {
+	text-align: center;
+	font-family: Calibri,sans-serif;
+	font-size: 16px;
+	font-style: normal;
+	color: #FF0000;
+}
+.caption {
+	font-family: Calibri,sans-serif;
+	font-size: 14px;
+	font-style: normal;
+}
+.caption_bold {
+	font-family: Calibri,sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+.caption_right {
+	font-family: Calibri,sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	text-align:right
+}
+.caption_center {
+	font-family: Calibri,sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	text-align:center
+}
+.size36 {
+		font-size: 36px;
+		}
+.size36_center {
+	font-size: 36px;
+	text-align:center
+		}		
+.size24 {
+	font-size: 24px;
+		}
+.size22 {
+	font-size: 22px;
+}
+.size20 {
+	font-size: 20px;
+}
+.size18 {
+	font-size: 18px;
+}
+.size16 {
+	font-size: 16px;
+}
+.size12 {
+	font-size: 12px;
+		}
+.size10 {
+	font-size: 12px;
+		}
+.size9 {
+	font-size: 9px;
+		}
+.size14 {
+		font-size: 14px;
+}
+.size14_Verdana {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 14px;
+}
+.size14_Verdana_green {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 14px;
+	color: #006600;
+}
+.size10_Verdana_red {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 10px;
+	color: #F00;
+}
+.strikethrough {
+		text-decoration: line-through;
+}
+.verdana {
+	font-family: Calibri;
+}
+.Calibri {
+	font-family: Calibri;
+}
+.Calibri12 {
+	font-family: Calibri;
+	font-size: 12px;
+}
+.Calibri14 {
+	font-family: Calibri;
+	font-size: 14px;
+}
+.Calibri15 {
+	font-family: Calibri;
+	font-size: 15px;
+}
+.Calibri17 {
+	font-family: Calibri;
+	font-size: 17px;
+}
+.Calibri18 {
+	font-family: Calibri;
+	font-size: 18px;
+}
+.Calibri20 {
+	font-family: Calibri;
+	font-size: 20px;
+}
+.Calibri24 {
+	font-family: Calibri;
+	font-size: 24px;
+}
+.Calibri30 {
+	font-family: Calibri;
+	font-size: 30px;
+}
+.Calibri36 {
+	font-family: Calibri;
+	font-size: 36px;
+}
+.CalibriSup {
+	font-family: Calibri;
+	font-size: 14px;
+	color: #F00;
+	vertical-align: super;
+}

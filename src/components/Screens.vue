@@ -1,22 +1,46 @@
 <template>
   <div class="home">
     <main>
-      <portal-target name="screen-1" tag="section" class="screen screen-1" multiple></portal-target>
-      <portal-target name="screen-2" tag="section" class="screen screen-2" multiple></portal-target>
-      <portal-target name="screen-3" tag="section" class="screen screen-3" multiple></portal-target>
-      <portal-target name="screen-4" tag="section" class="screen screen-4" multiple></portal-target>
+      <portal-target
+        name="screen-1"
+        tag="section"
+        class="screen screen-1"
+        multiple
+      ></portal-target>
+      <portal-target
+        name="screen-2"
+        tag="section"
+        class="screen screen-2"
+        multiple
+      ></portal-target>
+      <portal-target
+        name="screen-3"
+        tag="section"
+        class="screen screen-3"
+        multiple
+      ></portal-target>
+      <portal-target
+        name="screen-4"
+        tag="section"
+        class="screen screen-4"
+        multiple
+      ></portal-target>
     </main>
     <nav>
       <ul>
-        <router-link :to="`/chapter/${chapter - 1}`">Chapter {{ chapter - 1}}</router-link>
+        <router-link :to="`/chapter/${chapter - 1}`"
+          >Chapter {{ chapter - 1 }}</router-link
+        >
         <li @click="rewind">Rewind</li>
-        <li @click="toggle">{{ play ? 'Pause' : 'Play' }}</li>
+        <li @click="toggle">{{ play ? "Pause" : "Play" }}</li>
         <li @click="forward">Forward</li>
-        <router-link :to="`/chapter/${chapter + 1}`">Chapter {{ chapter + 1}}</router-link>
+        <router-link :to="`/chapter/${chapter + 1}`"
+          >Chapter {{ chapter + 1 }}</router-link
+        >
       </ul>
     </nav>
     <footer v-for="x in 2" :key="x">
-      <span v-for="y in (3-x)*9" :key="y">{{ title }}</span>
+      <span v-for="y in (3 - x) * 9" :key="y">{{ title }}</span>
     </footer>
     <slot />
   </div>
@@ -44,11 +68,35 @@ export default {
 </script>
 
 <style>
+@keyframes fadein {
+  from {
+    transform: scale(2, 2);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 main {
   display: grid;
   grid-template-columns: 1fr;
   grid-auto-rows: minmax(45vh, 1fr);
   min-height: 100vh;
+  background: var(--background);
+  color: var(--color);
+  /* animation: opacity 10s linear; */
 }
 
 @media (min-width: 900px) {
@@ -81,6 +129,15 @@ section:nth-of-type(1) {
   background: var(--background);
 }
 
+.map-source {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  font-weight: bold;
+  background: var(--background);
+  font-size: 10px;
+}
+
 .screen-text {
   flex: 1;
   padding: 5rem;
@@ -100,7 +157,10 @@ nav {
   pointer-events: none;
   justify-content: center;
   align-items: center;
-  inset: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
   z-index: 999;
 }
 
@@ -139,6 +199,7 @@ footer {
   align-items: flex-end;
   pointer-events: none;
   font-size: 1rem;
+  /* animation: fadein 10s linear; */
 }
 
 footer:last-of-type {

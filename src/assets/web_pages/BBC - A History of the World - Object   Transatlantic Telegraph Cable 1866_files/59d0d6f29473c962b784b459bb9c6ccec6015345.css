@@ -1,0 +1,115 @@
+#blq-content{
+	background: #E0FFFF;
+	padding: 10px;
+	}
+.nonjs-alert{
+	width: 620px;
+	height: 346px;
+	display: block;
+	border: 3px solid #ffffff;
+	background: #E2FFFF;
+	text-align: center;
+	}
+
+.nonjs-alert .description{
+	position:absolute;
+	top:150px;
+	left:128px;
+	width: 370px; 
+	height: auto;
+	background: #000000;
+	filter:alpha(opacity=75);
+	-moz-opacity:0.75;
+	-khtml-opacity: 0.75;
+	opacity: 0.75;
+	color: #ffffff;
+	font-weight: normal;
+	font-size: 1.1em;
+	padding: 10px 10px 13px 10px
+	}
+#controls li{
+	border-bottom: 1px solid #cccccc;
+	padding: 5px 0px 5px 60px;
+	margin: 5px 0px 5px 0px;
+	font-family: Arial;
+	overflow:hidden;
+	}
+#controls li p{
+	line-height: 1.2em;
+	padding: 0px 0px 5px 0px;
+	}
+#controls li h3{
+	font-size: 1.3em;
+	}
+#controls li.zoomin{
+	background: url('/staticarchive/5f0060af8e0b3990b7e5c05f3183590e94d723a7.png') no-repeat;
+	}
+#controls li.zoomout{
+	background: url('/staticarchive/b815e680f1517e55ed080f9c6fe16be1b82c71cc.png') no-repeat;
+	}
+#controls li.reset{
+	background: url('/staticarchive/e46ec312b5b231c64dfa6470b27f252c85c25937.png') no-repeat;
+	}
+#controls li.fullscreen{
+	background: url('/staticarchive/a4833cb94cc429a634a3fbdff4fbf016569b8933.png') no-repeat;
+	}
+
+.buttonleft{
+	background: green;
+	background: transparent url('/staticarchive/22a840d0b4f4ed0dce3e57683638a66493cf1bd3.png') no-repeat;
+	top: 25px;
+	width: 30px;
+	height: 20px;
+	overflow: hidden;
+	left: 35px;
+	text-indent: -99999px;
+	}
+.buttonright{
+	background: transparent url('/staticarchive/9c1d65a7f151755b44f49ec585ff3e283ef74372.png') no-repeat;
+	position: absolute;
+	width: 30px;
+	height: 20px;
+	overflow: hidden;
+	top: 25px;
+	left: 5px;
+	text-indent: -99999px;
+	}
+.buttonup{
+	background: transparent url('/staticarchive/c8ebf6c1b12a5dec8014c40dd61ad4fe6865a47c.png') no-repeat;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	overflow: hidden;
+	top: 5px;
+	left: 25px;
+	text-indent: -99999px;
+	}
+.buttondown{
+	background: transparent url('/staticarchive/22e3a4f1c7ff52321fc3eeb532f9d5031ed49e5b.png') no-repeat;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	overflow: hidden;
+	top: 45px;
+	left: 25px;
+	text-indent: -99999px;
+	}
+a.buttonright:hover{
+	background: transparent url('/staticarchive/c83af82c0981ea26b785ec365c6711587fc53218.png') no-repeat;
+	}
+a.buttonleft:hover{
+	background: transparent url('/staticarchive/2a5d98ee065102da5cd8621b2307bd4bac7b2bc1.png') no-repeat;
+	}
+a.buttonup:hover{
+	background: transparent url('/staticarchive/1073f23875c93f4d4a4a09fd7b3dbfb5f49c834d.png') no-repeat;
+	}
+a.buttondown:hover{
+	background: transparent url('/staticarchive/a98bf6902eab8ba22891e1d8312b44083a15482b.png') no-repeat;
+	}
+.galleryPictureContent{
+	background: #000000;
+	border: 3px solid #ffffff;
+	position: absolute;
+	overflow: hidden;
+	z-index: 0;
+	}

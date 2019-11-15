@@ -1,37 +1,44 @@
 @font-face {
-    font-family: "Messapia";
-    src: url("/Messapia-Regular.8d3df29a.otf") format("opentype");
-    font-weight: normal;
-  }
+  font-family: "Messapia";
+  src: url("/Messapia-Regular.8d3df29a.otf")
+    format("opentype");
+  font-weight: normal;
+}
 
 @font-face {
   font-family: "Messapia";
-  src: url("/Messapia-Bold.dd942ba6.otf") format("opentype");
+  src: url("/Messapia-Bold.dd942ba6.otf")
+    format("opentype");
   font-weight: bold;
 }
 
 @font-face {
   font-family: "Lexend";
-  src: url("/Lexend[LXND].6f4bbc15.null") format("truetype");
+  src: url("/Lexend[LXND].6f4bbc15.null")
+    format("truetype");
   font-weight: normal;
 }
 
 @font-face {
   font-family: "CascadiaCode";
-  src: url("/CascadiaCode-Regular-VTT.71f2514b.ttf") format("truetype");
+  src: url("/CascadiaCode-Regular-VTT.71f2514b.ttf")
+    format("truetype");
   font-weight: normal;
 }
 
-.page-enter-active, .page-leave-active {
+.page-enter-active,
+.page-leave-active {
   transition: opacity 1s, transform 1s;
 }
-.page-enter, .page-leave-to {
+.page-enter,
+.page-leave-to {
   opacity: 0;
   /* transform: translateY(-30%); */
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
@@ -40,11 +47,15 @@
 :root {
   --background: hsl(0, 0%, 100%);
   --color: black;
+  --primary: yellow;
 }
 
 .dark {
-  --background: black;
-  --color: #14ff00;
+  --background: hsl(0, 0%, 100%);
+  --color: black;
+  --primary: grey;
+  color: var(--color);
+  background: var(--background);
 }
 
 html {
@@ -60,10 +71,10 @@ html {
 
 body,
 text {
-  font-size: 1.6rem;
+  font-size: 2.6rem;
   font-family: Lexend, Arial, Helvetica, sans-serif;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-  Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: var(--color);
 }
 
@@ -96,6 +107,7 @@ p {
 img {
   max-width: 100%;
 }
+
 
 .typed-element {
   display: flex;
