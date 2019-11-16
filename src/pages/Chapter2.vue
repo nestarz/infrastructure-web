@@ -1,16 +1,18 @@
 <template>
   <screens
-    :chapter="1"
+    :chapter="2"
+    :playing="playing"
     @play="controls.play"
     @jump="controls.jump"
     class="dark"
   >
     <portal to="screen-1">
-      <story-map name="screen-1-map" :rotate="true"></story-map>
-      <portal-target name="screen-1-text" class="screen-text">
-        <strong>Call me by your name</strong>
-        <pre>Darknet(s) in the Network</pre>
-      </portal-target>
+      <!-- <story-map name="screen-1-map" :rotate="true"></story-map>
+      <portal-target name="screen-1-text" class="screen-1-text"></portal-target> -->
+      <packet-ar></packet-ar>
+    </portal>
+    <portal to="screen-1-text" class="title">
+      <div class="title">Call me by your name</div>
     </portal>
     <portal to="screen-2">
       <story-map
@@ -22,7 +24,10 @@
       <portal-target name="screen-2-source" class="map-source"></portal-target>
     </portal>
     <portal to="screen-4">
-      <portal-target name="screen-4-text" class="screen-text"></portal-target>
+      <portal-target
+        name="screen-4-text"
+        class="screen-4-text screen-text"
+      ></portal-target>
     </portal>
     <sequence
       :duration="duration"
@@ -31,46 +36,13 @@
       :autoplay="false"
     >
       <sequence>
-        <portal to="screen-3">
-          <video
-            src="/assets/video/My Name Is Janez Janša (Trailer).mp4"
-            autoplay
-          />
-        </portal>
-        <portal to="screen-4-text">
-          Dark networks
-          <i>(ie. Darknets)</i> are built upon internet ecosystem. They uses the
-          sames addresses, routers, registries and cables.
-        </portal>
         <portal to="screen-2-text"
-          >Main Dark Networks operating on Internet as of 2019</portal
+          >First transatlantic telegraph cable, August 16, 1858</portal
         >
-      </sequence>
-      <sequence>
         <portal to="screen-4-text">
-          Darknets are meant to protect emitters identity during the travel of
-          messages. The most used in November 2019, is
-          <strong>tor</strong>.
-        </portal>
-      </sequence>
-      <sequence>
-        <portal to="screen-4-text">
-          <sequence :duration="duration / 4">
-            <sequence>Tor is based on relays.</sequence>
-            <sequence
-              >As the olympic game, the emitter give the message to relays until
-              destination is reached.</sequence
-            >
-            <sequence
-              >Recipient don't know who is the original emitter, and only know
-              the last relay. Same for routers and opeerators, the information
-              of the emitter is unknown.</sequence
-            >
-            <sequence
-              >Relays are others users of the networks. At each connection, a
-              new team of relay is found.</sequence
-            >
-          </sequence>
+          How would you hide your conversations ?
+          <mark>Dark networks</mark> like tor let you borrow another name to
+          make conversations.
         </portal>
       </sequence>
     </sequence>
@@ -84,13 +56,15 @@ export default {
   components: {
     Screens: () => import("~/components/Screens.vue"),
     Sequence: () => import("~/components/Sequence.js"),
-    StoryMap: () => import("~/components/Map.vue")
+    StoryMap: () => import("~/components/Map.vue"),
+    PacketAr: () => import("~/components/Packet.vue")
   },
   setup(props, { root }) {
     const sequence = ref(null);
     const controls = ref({ play: () => null, jump: () => null });
 
     return {
+      playing: ref(false),
       sequence,
       controls,
       setControls: value => (controls.value = value),
@@ -101,3 +75,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.aframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+</style>

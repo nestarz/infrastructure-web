@@ -3495,28 +3495,6 @@ module.exports = {
     }
   }
 };
-},{}],"utils/requestAnimationFps.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-function _default(fn, fps = 60) {
-  let then = Date.now();
-  const interval = 1000 / fps;
-  return function loop() {
-    requestAnimationFrame(loop);
-    const now = Date.now();
-    const delta = now - then;
-
-    if (delta > interval) {
-      then = now - delta % interval;
-      fn();
-    }
-  }(0);
-}
 },{}],"components/Map.vue":[function(require,module,exports) {
 "use strict";
 
@@ -3708,7 +3686,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62217" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65125" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

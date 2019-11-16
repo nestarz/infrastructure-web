@@ -22,7 +22,7 @@ const router = new VueRouter({
   routes: [
     {
       path: "/",
-      redirect: "/chapter/1"
+      redirect: "/chapter/2"
     },
     {
       path: "/chapter/1",
