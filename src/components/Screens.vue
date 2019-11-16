@@ -31,9 +31,11 @@
         <router-link :to="`/chapter/${chapter - 1}`"
           >Chapter {{ chapter - 1 }}</router-link
         >
-        <li @click="rewind">Rewind</li>
-        <li @click="toggle">{{ playing ? "Pause" : "Play" }}</li>
-        <li @click="forward">Forward</li>
+        <div>
+          <li @click="rewind">Rewind</li>
+          <li @click="toggle">{{ playing ? "Pause" : "Play" }}</li>
+          <li @click="forward">Forward</li>
+        </div>
         <router-link :to="`/chapter/${chapter + 1}`"
           >Chapter {{ chapter + 1 }}</router-link
         >
@@ -57,7 +59,7 @@ export default {
   setup(props, { emit }) {
     return {
       title: "opt-out the yellow pages",
-      toggle: () => (emit("play", !props.playing)),
+      toggle: () => emit("play", !props.playing),
       forward: () => emit("jump", +1),
       rewind: () => emit("jump", -1)
     };
@@ -167,12 +169,25 @@ nav ul {
   cursor: pointer;
   pointer-events: all;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   height: min-content;
+  flex-direction: column;
+  margin-left: -3rem;
 }
 
 nav ul:hover {
   opacity: 1;
+}
+
+nav li {
+  min-width: 4em;
+}
+
+nav div {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 nav li,
@@ -182,8 +197,16 @@ nav a {
   padding: 1rem;
   border: 1px solid;
   background: var(--background);
-  min-width: 4em;
   text-align: center;
+}
+
+nav a {
+  writing-mode: vertical-lr;
+  width: min-content;
+}
+
+nav a:last-of-type {
+  transform: rotate(180deg);
 }
 
 footer {

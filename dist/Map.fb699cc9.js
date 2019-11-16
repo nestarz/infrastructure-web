@@ -3503,25 +3503,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _default;
 
-function _default(fn, fps) {
-  // Use var then = Date.now(); if you
-  // don't care about targetting < IE9
-  let then = new Date().getTime(); // custom fps, otherwise fallback to 60
-
-  fps = fps || 60;
+function _default(fn, fps = 60) {
+  let then = Date.now();
   const interval = 1000 / fps;
-  return function loop(time) {
-    requestAnimationFrame(loop); // again, Date.now() if it's available
-
-    const now = new Date().getTime();
+  return function loop() {
+    requestAnimationFrame(loop);
+    const now = Date.now();
     const delta = now - then;
 
     if (delta > interval) {
-      // Update time
-      // now - (delta % interval) is an improvement over just
-      // using then = now, which can end up lowering overall fps
-      then = now - delta % interval; // call the fn
-
+      then = now - delta % interval;
       fn();
     }
   }(0);
@@ -3586,10 +3577,10 @@ var _default = {
     }));
 
     const animate = () => {
-      rotate.x = rotate.x + 0.1; // rotate.y = rotate.y - 0.1;
+      rotate.x = rotate.x + 0.4; // rotate.y = rotate.y - 0.1;
     };
 
-    props.rotate && (0, _requestAnimationFps.default)(animate, 20);
+    props.rotate && (0, _requestAnimationFps.default)(animate, 6);
     return {
       config,
       geoUrl: _world110m.default
@@ -3717,7 +3708,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56773" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62217" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

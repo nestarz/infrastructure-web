@@ -23,6 +23,7 @@ export default {
     let id;
     const clean = () => {
       if (typeof id === "number") workerTimers.clearInterval(id);
+      id = null;
       emit("paused");
     };
     const animate = () => {
@@ -54,12 +55,14 @@ export default {
       if (!slots.default) return null;
 
       const sequences = slots.default().filter(withSeq);
-      const current = index.value % sequences.length;
+      const current =
+        ((index.value % sequences.length) + sequences.length) %
+        sequences.length;
       emit("current", current);
 
       if (!props.loop && current === sequences.length - 1) {
         clean();
-        emit('ended');
+        emit("ended");
       }
       return h(props.tag, [sequences[current]]);
     };

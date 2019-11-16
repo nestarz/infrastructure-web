@@ -1209,6 +1209,11 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+better-interval@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/better-interval/-/better-interval-1.0.9.tgz#5f566db06db7d53f6f3de2a342939532811bcd3a"
+  integrity sha1-X1ZtsG231T9vPeKjQpOVMoEbzTo=
+
 binary-extensions@^1.0.0:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.13.1.tgz#598afe54755b2868a5330d2aff9d4ebb53209b65"

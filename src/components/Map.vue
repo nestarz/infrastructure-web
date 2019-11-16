@@ -40,10 +40,10 @@ export default {
       scale: props.scale
     }));
     const animate = () => {
-      rotate.x = rotate.x + 0.1;
+      rotate.x = rotate.x + 0.4;
       // rotate.y = rotate.y - 0.1;
     };
-    props.rotate && requestAnimationFps(animate, 20);
+    props.rotate && requestAnimationFps(animate, 6);
     return {
       config,
       geoUrl: world110m

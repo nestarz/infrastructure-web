@@ -95,8 +95,8 @@
       <sequence>
         <portal to="screen-4-text">
           At each pole,
-          <mark>Switchboard Operators</mark> pointed communication to the right
-          cable route.
+          <mark>Switchboard Operators</mark>, or Hello Girls, pointed
+          communication to the right cable route.
         </portal>
         <portal to="screen-3">
           <video autoplay controls loop src="/assets/video/switch2.mp4" />
@@ -104,15 +104,15 @@
         <portal :to="x" v-for="x in ['screen-1-map', 'screen-2-map']" :key="x">
           <sequence
             root
-            :duration="duration / telegraph1901.length"
+            :duration="duration / (telegraphSim.length * 7)"
             tag="g"
             :loop="true"
           >
-            <sequence v-for="(x, i) in telegraph1901" :key="i" tag="g">
+            <sequence v-for="(x, i) in telegraphSim" :key="i" tag="g">
               <map-line
-                v-if="telegraph1901[i + 1]"
+                v-if="telegraphSim[i + 1]"
                 :from="[x[0], x[1]]"
-                :to="[telegraph1901[i + 1][0], telegraph1901[i + 1][1]]"
+                :to="[telegraphSim[i + 1][0], telegraphSim[i + 1][1]]"
                 :stroke-width="10"
                 stroke="yellow"
               ></map-line>
@@ -120,54 +120,89 @@
           </sequence>
         </portal>
         <portal to="screen-2-text"
-          >Communication Simulation using Telegraph Network</portal
-        >
-        <portal to="screen-2-source"
-          >https://en.wikipedia.org/wiki/File:1901_Eastern_Telegraph_cables.png</portal
+          >Communication Simulation using Telephone Network</portal
         >
       </sequence>
       <sequence>
         <portal to="screen-4-text">
-          Users were attributed
-          <strong>unique address numbers</strong> from local authorities.
+          <mark>Telephone numbers</mark> are addresses linking your device and
+          your identity. They are attributed by authorized companies.
+        </portal>
+      </sequence>
+      <sequence>
+        <portal :to="x" v-for="x in ['screen-1-map', 'screen-2-map']" :key="x">
+          <sequence
+            root
+            :duration="duration / (tlds.length / 100)"
+            tag="g"
+            :loop="true"
+          >
+            <sequence
+              v-for="{ name, longitude, latitude } in tlds"
+              :key="name"
+              tag="g"
+            >
+              <map-annotation
+                :subject="[longitude, latitude]"
+                :dx="25"
+                :dy="25"
+              >
+                <text :x="-8">{{ name }}</text>
+              </map-annotation>
+              <map-marker :coordinates="[longitude, latitude]">
+                <circle :r="10" fill="yellow" />
+              </map-marker>
+            </sequence>
+          </sequence>
+        </portal>
+        <portal to="screen-2-text"
+          >Domain names registries</portal
+        >
+        <portal to="screen-4-text">
+          White and <mark>Yellow pages</mark> are directories listing phone
+          numbers resolving to the identity of the line holder.
         </portal>
       </sequence>
       <sequence>
         <portal to="screen-4-text">
-          All addresses are listed in a single file,
-          <strong>a phone book,</strong> to be used by operators, authorities
-          and senders.
+          Internet share the same logic with
+          <mark>wires, routing and address registries</mark>.
+        </portal>
+      </sequence>
+      <sequence>
+        <portal to="screen-3">
+          <img src="/assets/images/6780309.jpg" />
+          <img src="/assets/images/ARPANET_first_router2.jpg" />
+        </portal>
+        <portal to="screen-4-text">
+          <mark>Routers</mark> are <mark>Hello Girls</mark>. Both know the best
+          route to transmit the communication, and how.
         </portal>
       </sequence>
       <sequence>
         <portal to="screen-4-text">
-          Internet is a superset with
-          <strong>new protocols and automation systems</strong> but share the
-          same logic with wires, routing and address registries.
+          <mark>IP addresses</mark> are <mark>Phone numbers</mark>. An IP is
+          unique in the world, ICANN give ranges to countries, then attributed
+          by companies.
         </portal>
       </sequence>
       <sequence>
         <portal to="screen-4-text">
-          <strong>Routers are Switchboard operators.</strong>
-          They receive the same information, the message and the wanted
-          destination. They both know the best route to transmit the
-          communication and how.
+          <mark>Internet Registries</mark> are <mark>Phone Book</mark>. All
+          countries registries are subset of a single, root registry, owned by
+          ICANN.
         </portal>
       </sequence>
       <sequence>
         <portal to="screen-4-text">
-          <strong>IP addresses are Phone addresses.</strong>
-          An IP is unique in the world, and to preserve uniqueness, only ICANN
-          give them. Uniquness is needed to reach destination without any other
-          information than IP.
+          IP being a name to your identity, every messages sent from this
+          address makes you <mark>entitled</mark>.
         </portal>
       </sequence>
       <sequence>
         <portal to="screen-4-text">
-          <strong>Internet Registries are Phone book.</strong>
-          Where phone books were only per countries, all registries in Internet
-          are subset of a single registry, from ICANN. This unique phone book is
-          used by operators to attribute to people available addresses.
+          Todays Hello Girls, still listen to your conversation spying for
+          <mark>intelligence agencies to white-hat hackers</mark>.
         </portal>
       </sequence>
     </sequence>
@@ -177,6 +212,14 @@
 <script>
 import { watch, ref } from "@vue/composition-api";
 import telegraph1901 from "~/assets/json/handmade_telegraph_1901.json";
+import tlds from "~/assets/json/tlds.json";
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 
 export default {
   components: {
@@ -192,11 +235,20 @@ export default {
       playing: ref(false),
       sequence,
       controls,
-      duration: 1000,
+      duration: 10000,
       autoplay: false,
       setControls: value => (controls.value = value),
-      ended: () => root._router.push({ path: "/chapter/2" }),
+      ended: () => null, //root._router.push({ path: "/chapter/2" }),
+      tlds: Object.entries(tlds)
+        .filter(([_, tld]) => tld.geo && tld.geo[0])
+        .map(([name, tld]) => ({
+          name,
+          longitude: tld.geo[0].longitude,
+          latitude: tld.geo[0].latitude
+        }))
+        .sort(() => 0.5 - Math.random()),
       telegraph1901: telegraph1901.features[0].geometry.coordinates,
+      telegraphSim: telegraph1901.features[0].geometry.coordinates.slice(0, 15),
       transatlantic1: [
         {
           name: "Foilhommerum Bay, Valentia Island, Ireland",
