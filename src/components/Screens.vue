@@ -116,12 +116,6 @@ section {
   position: relative;
 }
 
-section:nth-of-type(1) {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1.5fr 1fr;
-}
-
 .map-title {
   position: absolute;
   top: 1rem;
@@ -168,7 +162,6 @@ nav {
 nav ul {
   opacity: 0;
   cursor: pointer;
-  pointer-events: all;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -193,6 +186,7 @@ nav div {
 
 nav li,
 nav a {
+  pointer-events: all;
   list-style: none;
   margin: 1rem;
   padding: 1rem;
@@ -252,9 +246,9 @@ video {
 }
 
 .screen-1-text {
-  display: grid;
-  grid-template-columns: 0fr 1fr;
-  grid-gap: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .title {

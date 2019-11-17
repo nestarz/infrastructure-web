@@ -2,8 +2,7 @@
   <div class="aframe">
     <face-track @canvases="v => (canvas = v[0])" class="tracker"></face-track>
     <a-scene embedded class="aframe" vr-mode-ui="enabled: false">
-      <a-box position="0 1.5 -3" rotation="0 45 0" ref="box"></a-box>
-      <a-sky color="#1a1a1a"></a-sky>
+      <a-box position="0 1.58 -1.5" rotation="0 45 0" ref="box"></a-box>
     </a-scene>
   </div>
 </template>
@@ -22,7 +21,7 @@ export default {
     const canvas = ref(null);
 
     watch(canvas, () => {
-      if (!canvas) return;
+      if (!canvas.value) return;
       console.log(canvas.value);
       const texture = new THREE.CanvasTexture(
         canvas.value.getContext("2d").canvas
@@ -33,7 +32,11 @@ export default {
     });
 
     onMounted(() =>
-      requestAnimationFps(() => box.value.object3D.rotateX(0.01), 8)
+      requestAnimationFps(() => {
+        box.value.object3D.rotateX(0.01);
+        box.value.object3D.rotateY(0.005);
+        box.value.object3D.rotateZ(0.005);
+      }, 20)
     );
     return {
       box,

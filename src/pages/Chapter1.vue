@@ -290,3 +290,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+section:nth-of-type(1) {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5fr 1fr;
+}
+</style>

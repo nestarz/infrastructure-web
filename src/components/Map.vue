@@ -1,5 +1,5 @@
 <template>
-  <map-composable :projection="projection" :projection-config="config" :canvas="false" class="map">
+  <map-composable :projection="projection" :projection-config="config" :canvas="canvas" class="map">
     <map-graticule fill="transparent" stroke="var(--color)" :stroke-width="1"></map-graticule>
     <map-sphere stroke="var(--color)" :stroke-width="2"></map-sphere>
     <map-geographies :geography="geoUrl">
@@ -28,12 +28,14 @@ export default {
     projection: { type: String, default: "geoOrthographic" },
     name: String,
     rotate: Boolean,
-    scale: { type: Number, default: 80 }
+    scale: { type: Number, default: 80 },
+    rotation: { type: Array, default: () => [0, 0] },
+    canvas: { type: Boolean, default: false }
   },
   setup(props) {
     const rotate = reactive({
-      x: 0,
-      y: 0
+      x: props.rotation[0],
+      y: props.rotation[1]
     });
     const config = computed(() => ({
       rotate: [rotate.x, rotate.y - 30],

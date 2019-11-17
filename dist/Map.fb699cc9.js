@@ -3541,13 +3541,21 @@ var _default = {
     scale: {
       type: Number,
       default: 80
+    },
+    rotation: {
+      type: Array,
+      default: () => [0, 0]
+    },
+    canvas: {
+      type: Boolean,
+      default: false
     }
   },
 
   setup(props) {
     const rotate = (0, _compositionApi.reactive)({
-      x: 0,
-      y: 0
+      x: props.rotation[0],
+      y: props.rotation[1]
     });
     const config = (0, _compositionApi.computed)(() => ({
       rotate: [rotate.x, rotate.y - 30],
@@ -3586,7 +3594,7 @@ exports.default = _default;
       attrs: {
         projection: _vm.projection,
         "projection-config": _vm.config,
-        canvas: false
+        canvas: _vm.canvas
       }
     },
     [
@@ -3686,7 +3694,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65125" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52658" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
