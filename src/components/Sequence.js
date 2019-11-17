@@ -51,20 +51,23 @@ export default {
       }
     });
 
+    const current = ref(0);
     return () => {
       if (!slots.default) return null;
 
-      const sequences = slots.default().filter(withSeq);
-      const current =
+      const sequences = slots
+        .default({ current: current.value })
+        .filter(withSeq);
+      current.value =
         ((index.value % sequences.length) + sequences.length) %
         sequences.length;
-      emit("current", current);
+      emit("current", current.value);
 
-      if (!props.loop && current === sequences.length - 1) {
+      if (!props.loop && current.value === sequences.length - 1) {
         clean();
         emit("ended");
       }
-      return h(props.tag, [sequences[current]]);
+      return h(props.tag, [sequences[current.value]]);
     };
   }
 };
