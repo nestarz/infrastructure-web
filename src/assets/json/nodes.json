@@ -19151,8 +19151,8 @@
     "latitude": 23.5,
     "longitude": 121
   },
-  null,
-  null,
+  
+  
   {
     "ip": "2003:000a:037f:ef4f:dead:babe:b00b:beef",
     "country": "DE",
@@ -22863,7 +22863,7 @@
     "latitude": 47.617,
     "longitude": -117.361
   },
-  null,
+  
   {
     "ip": "2602:fe2e:0001:0000:0000:0000:0000:0138",
     "country": "US",
@@ -29500,7 +29500,7 @@
     "latitude": 55.7386,
     "longitude": 37.6068
   },
-  null,
+  
   {
     "ip": "45.20.67.1",
     "country": "US",
